@@ -107,7 +107,7 @@
     let gameData;
     let NumberBtn = Array(100).fill().map((_, i) => ({ number: (`0${i}`).slice(-2), status: false }));
     let currentWallet;
-
+    let total_bet = 723423948;
     // Hàm xử lý 
     function Image(id) {
         return `https://soc.bitrefund.co/assets/${id}`
@@ -654,7 +654,7 @@
             ctn_pig.innerHTML = `
                 <dotlottie-player src="https://lottie.host/d0e9200a-390f-4ddc-bc4a-cc834aae42af/ZIbJe8tm8f.lottie"
                 background="transparent" speed="1" style="width: 200px; height: 200px" loop autoplay></dotlottie-player>
-                <p class="ctn-jackpot-widget">73.342.234.234,45 ${gameData.symbol}</p>
+                <p id="count_bet" class="ctn-jackpot-widget">${new Intl.NumberFormat('de-DE').format(total_bet)} ${gameData.symbol}</p>
             `
             container.appendChild(ctn_pig)
 
@@ -758,10 +758,13 @@
                 }
             }
 
-            function showNoti(noti) {
+            function showNoti(noti, type = false) {
                 title_noti.innerText = noti
                 background_modal_noti.className = "bg-modal-widget block"
-                error.play()
+                if (!type) {
+                    error.play()
+                }
+
             }
 
             // Btn action
@@ -856,7 +859,7 @@
             })
             btn_bet.addEventListener('click', async () => {
                 const numbers = NumberBtn.filter(item => item.status)
-                const value = input.value;
+                const value = Number(input.value);
                 if (!currentWallet) {
                     showNoti(`Connect Metamask wallet to play!!`)
                     return;
@@ -872,7 +875,10 @@
                 const tx = true
                 if (tx) {
                     add_coin.play()
-                    showNoti(`You bet ${value} ${gameData.symbol} for ${numbers.map(item => item.number).join(", ")}`)
+                    showNoti(`You bet ${value} ${gameData.symbol} for ${numbers.map(item => item.number).join(", ")}`, true)
+                    const count_bet = document.getElementById('count_bet')
+                    count_bet.textContent = new Intl.NumberFormat('de-DE').format(total_bet + value)
+                    total_bet += value
                 } else {
                     showNoti('Have a problem. Please try again !')
                 }
