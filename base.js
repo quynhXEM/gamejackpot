@@ -731,13 +731,18 @@
             container.appendChild(card_ctn_bet)
 
             const jackpot = document.createElement('audio')
-            jackpot.src = '/sounds/jackpot.mp3'
-            const add_coin = document.createElement('audio')
-            add_coin.src = '/sounds/add_coin.mp3'
+            jackpot.src = 'https://gamebo-widget.vercel.app/sounds/jackpot.mp3'
             add_coin.type = "audio/mp3"
+            const add_coin = document.createElement('audio')
+            add_coin.src = 'https://gamebo-widget.vercel.app/sounds/add_coin.mp3'
+            add_coin.type = "audio/mp3"
+            const error = document.createElement('audio')
+            error.src = 'https://gamebo-widget.vercel.app/sounds/error.mp3'
+            error.type = "audio/mp3"
 
-            document.body.appendChild(jackpot)
-            document.body.appendChild(add_coin)
+            container.appendChild(jackpot)
+            container.appendChild(add_coin)
+            container.appendChild(error)
             // Inner Function 
             async function TransferToken(value) {
                 try {
@@ -756,6 +761,7 @@
             function showNoti(noti) {
                 title_noti.innerText = noti
                 background_modal_noti.className = "bg-modal-widget block"
+                error.play()
             }
 
             // Btn action
@@ -849,7 +855,6 @@
                 background_modal_noti.className = "bg-modal-widget none"
             })
             btn_bet.addEventListener('click', async () => {
-                
                 const numbers = NumberBtn.filter(item => item.status)
                 const value = input.value;
                 if (!currentWallet) {
@@ -860,9 +865,13 @@
                     showNoti(`Please enter token to bet!!`)
                     return;
                 }
-                const tx = await TransferToken(value)
+                if (!numbers.length) {
+                    showNoti(`Please choose 1 - 10 number !!`)
+                    return;
+                }
+                const tx = true
                 if (tx) {
-
+                    add_coin.play()
                     showNoti(`You bet ${value} ${gameData.symbol} for ${numbers.map(item => item.number).join(", ")}`)
                 } else {
                     showNoti('Have a problem. Please try again !')
@@ -878,7 +887,6 @@
                 })
             })
             remove.addEventListener('click', () => {
-                add_coin.play()
                 NumberBtn = Array(100).fill().map((_, i) => ({ number: (`0${i}`).slice(-2), status: false }));
                 const numbers = document.querySelectorAll('.btn_num_bet')
                 numbers.forEach((el) => {

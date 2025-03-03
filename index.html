@@ -7,7 +7,8 @@
 
 <body style="margin: 0px; padding: 0px;">
     <div style="width: 100%; height: 100vh;">
-        <div id="jackpot-game-widget"></div>
+        <div id="jackpot-game-widget">
+        </div>
     </div>
     <script>
         const widget = document.getElementById('jackpot-game-widget')
@@ -15,7 +16,7 @@
         widget.setAttribute("data-id", idGame)
 
         const script = document.createElement("script");
-        script.src = "./widget.js";
+        script.src = "./base.js";
         document.body.appendChild(script);
     </script>
 </body>
