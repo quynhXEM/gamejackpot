@@ -108,6 +108,18 @@
     let NumberBtn = Array(100).fill().map((_, i) => ({ number: (`0${i}`).slice(-2), status: false }));
     let currentWallet;
     let total_bet = 723423948;
+    let histories = [
+        { id: "9234293", size: "8342837", total: "283829" },
+        { id: "9234292", size: "8342865", total: "6567653" },
+        { id: "9234291", size: "8342835", total: "45364536" },
+        { id: "9234290", size: "8342876", total: "3455345" },
+        { id: "9234289", size: "8342890", total: "4395639.8457" },
+        { id: "9234288", size: "8342872", total: "5645.786" },
+        { id: "9234287", size: "8342801", total: "45.77" },
+        { id: "9234286", size: "8342855", total: "436547.8" },
+        { id: "9234285", size: "8342849", total: "46546.5" },
+        { id: "9234284", size: "8342850", total: "926382.56" },
+    ]
     // Hàm xử lý 
     function Image(id) {
         return `https://soc.bitrefund.co/assets/${id}`
@@ -521,44 +533,19 @@
             const content_info = document.createElement('div')
             content_info.className = "content-modal-widget"
             content_info.innerHTML = `
-                <p>Welcome to <span class="text-highlight-widget">49-50 Game</span>, an exciting blockchain-based betting game! Follow these steps to start playing and maximize your winnings.</p>
+                <p>Welcome to <span class="text-highlight-widget">BEF20 Jackpot Game</span>, an exciting blockchain-based betting game! Follow these steps to start playing and maximize your winnings.</p>
                 
-                <h3>Step 1: Connect Your Wallet</h3>
+                <h3>Game Requirements:</h3>
+                <p>To play, you need to connect your Metamask wallet. You will need BNB for transaction fees and the <strong>${gameData.symbol}</strong> specified by the game creator for in-game transactions.</p>
+
+                <h3>How to Play:</h3>
+                <p>After connecting your wallet, <span class="text-highlight-widget">select 1 to 10 numbers from 00 to 99.</span> Then, enter the amount of tokens you wish to bet. The bet will be equally distributed across the numbers you selected. Finally, click the "Play" button to place your bet.</p>
+
+                <h3>After Each Block is Confirmed:</h3>
+                <p>The game will use <span class="text-highlight-widget"> the last two digits of the block size </span> as the result.</p>
                 <ul>
-                    <li>To participate, you must connect your cryptocurrency wallet to the game.</li>
-                    <li>Ensure your wallet contains <span class="text-highlight-widget">${gameData.symbol}</span> for betting and some BNB for transaction fees.</li>
-                </ul>
-                
-                <h3>Step 2: Understanding the Game Rounds</h3>
-                <ul>
-                    <li>Each game round lasts for <span class="text-highlight-widget">10 BTC blockchain blocks</span>.</li>
-                    <li>You will be betting on the last two decimal digits of the "size" of a specific BTC block.</li>
-                    <li>You need to predict whether the value falls within <span class="text-highlight-widget">0-49</span> or <span class="text-highlight-widget">50-99</span>.</li>
-                </ul>
-                
-                <h3>Step 3: Placing a Bet</h3>
-                <ul>
-                    <li>Choose the amount of <span class="text-highlight-widget">${gameData.symbol}</span> you wish to bet in a specific round.</li>
-                    <li>Select your prediction range (<span class="text-highlight-widget">0-49</span> or <span class="text-highlight-widget">50-99</span>).</li>
-                    <li>You have <span class="text-highlight-widget">5 blocks</span> from the start of the round to place your bet before the betting phase is locked.</li>
-                </ul>
-                
-                <h3>Step 4: Awaiting Results</h3>
-                <ul>
-                    <li>After the betting phase ends, wait for the corresponding BTC block information to be published.</li>
-                    <li>The result is determined based on the last two decimal digits of the block size.</li>
-                </ul>
-                
-                <h3>Step 5: Winning and Payouts</h3>
-                <ul>
-                    <li>If your prediction is correct, you win a share of the losing side's total bet, after deducting the game fee.</li>
-                    <li>Winnings are distributed proportionally based on your bet amount relative to the total pool.</li>
-                </ul>
-                
-                <h3>Additional Notes</h3>
-                <ul>
-                    <li>Only <span class="text-highlight-widget">${gameData.symbol}</span> is accepted for betting.</li>
-                    <li>Make sure to have enough BNB in your wallet to cover transaction fees.</li>
+                    <li>If a player has correctly guessed the last two digits, their winnings will be distributed based on the proportion of their bet to the total pool.</li>
+                    <li>If no one guesses correctly, the entire pool of funds will be carried over to the next round.</li>
                 </ul>
                 
                 <p>Enjoy the game and good luck!</p>
@@ -579,41 +566,41 @@
             title_his.innerText = "History games"
             const content_his = document.createElement('div')
             content_his.className = "content-modal-his-widget"
-            // histories.forEach(item => {
-            //     const his_item = document.createElement('div')
-            //     his_item.style = `
-            //          display: flex;
-            //          flex: 1;
-            //          text-align: center;
-            //          padding: 10px;
-            //          box-sizing: border-box;
-            //          flex-direction: row;
-            //          justify-content: center;
-            //          align-items: center; 
-            //          gap: 10px;
-            //      `
-            //     const his_id = document.createElement('p')
-            //     his_id.innerText = `BTC - ${item.id}`
-            //     his_id.className = "text-black merienda-text-widget"
-            //     his_id.style = `
-            //          text-wrap: nowrap
-            //      `
-            //     const his_size = document.createElement('div')
-            //     his_size.style = `
-            //          border-radius: 5px;
-            //          background-color: ${Number(item.size.substring(item.size.length - 2)) > 49 ? color.green : color.red};
-            //          font-family: "Merienda", serif;
-            //          font-weight: 700;
-            //          color: white;
-            //          padding: 10px;
-            //          font-size: 12px
-            //      `
-            //     his_size.textContent = item.size.substring(item.size.length - 2)
+            histories.forEach(item => {
+                const his_item = document.createElement('div')
+                his_item.style = `
+                     display: flex;
+                     flex: 1;
+                     text-align: center;
+                     padding: 10px;
+                     box-sizing: border-box;
+                     flex-direction: row;
+                     justify-content: center;
+                     align-items: center; 
+                     gap: 10px;
+                 `
+                const his_id = document.createElement('p')
+                his_id.innerText = new Intl.NumberFormat('de-DE').format(item.total)
+                his_id.className = "text-black merienda-text-widget"
+                his_id.style = `
+                     text-wrap: nowrap
+                 `
+                const his_size = document.createElement('div')
+                his_size.style = `
+                     border-radius: 5px;
+                     background-color: ${color.orange};
+                     font-family: "Merienda", serif;
+                     font-weight: 700;
+                     color: white;
+                     padding: 10px;
+                     font-size: 12px
+                 `
+                his_size.textContent = item.size.substring(item.size.length - 2)
 
-            //     his_item.appendChild(his_id)
-            //     his_item.appendChild(his_size)
-            //     content_his.appendChild(his_item)
-            // })
+                his_item.appendChild(his_id)
+                his_item.appendChild(his_size)
+                content_his.appendChild(his_item)
+            })
             card_modal.appendChild(title_his)
             card_modal.appendChild(content_his)
             background_modal.appendChild(card_modal)
