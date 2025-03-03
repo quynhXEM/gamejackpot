@@ -732,7 +732,7 @@
 
             const jackpot = document.createElement('audio')
             jackpot.src = 'https://gamebo-widget.vercel.app/sounds/jackpot.mp3'
-            add_coin.type = "audio/mp3"
+            jackpot.type = "audio/mp3"
             const add_coin = document.createElement('audio')
             add_coin.src = 'https://gamebo-widget.vercel.app/sounds/add_coin.mp3'
             add_coin.type = "audio/mp3"
