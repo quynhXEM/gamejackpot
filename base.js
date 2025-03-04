@@ -201,6 +201,10 @@
         return network.find((item) => item.chain_id == chain_id);
     };
 
+    function mathToken(NumberBtn) {
+        document.getElementById('play-widget').innerText = "Play " + NumberBtn.filter((item) => item.status).length * Number(document.getElementById('input-widget').value) + gameData.symbol
+    }
+
     // Connect server
     async function getBlock() {
         current_block = await fetch("https://block.nguyenxuanquynh1812nc1.workers.dev/", {
@@ -230,7 +234,7 @@
             if (data.op === "block") {
                 current_block = data.x
                 const block = document.getElementById('current-block')
-                block.textContent = current_block.height
+                block.textContent = "#" + current_block.height
             }
         };
 
@@ -276,8 +280,8 @@
         script.type = 'module';
         style.textContent = `
             html {
-                scrollbar-width: none; /* Firefox */
-                -ms-overflow-style: none; /* IE và Edge */
+                scrollbar-width: none;
+                -ms-overflow-style: none;
             }
             input[type=number]::-webkit-inner-spin-button, 
             input[type=number]::-webkit-outer-spin-button {
@@ -343,6 +347,7 @@
                 font-size: 1.5rem;
                 color: black;
                 margin-top: 20px;
+                text-align: center;
             }
             .content-modal-his-widget {
                 flex: 1;
@@ -467,8 +472,8 @@
                 flex-direction: row;
                 align-items: center;
                 justify-content: space-evenly;
-                margin-top: 10px;
-                margin: 0px 20px;
+                margin-top: 20px;
+                
             }
             .card-ct-bet {
                 background-color: #2B2F5F;
@@ -479,7 +484,7 @@
                 padding: 10px;
                 overflow-y: scroll;
                 max-height: 230px;
-                max-width: 500px;
+                max-width: 1020px;
                 width: 100%;
                 scrollbar-width: none;
                 -ms-overflow-style: none; 
@@ -487,10 +492,11 @@
 
             .group-actbtn-widget {
                 display: flex;
-                width: 100%;
+                flex: 1;
                 flex-direction: row;
                 justify-content: space-between;
                 gap: 10px;
+                max-width: 1020px;
             }
 
             .auto-select-widget {
@@ -642,7 +648,7 @@
                      padding: 10px;
                      box-sizing: border-box;
                      flex-direction: row;
-                     justify-content: center;
+                     justify-content: left;
                      align-items: center; 
                      gap: 10px;
                  `
@@ -693,7 +699,7 @@
             const action_div = document.createElement('div')
             action_div.className = "action-div-widget "
             action_div.id = "current-block"
-            action_div.textContent = current_block.height
+            action_div.textContent = "#" + current_block.height
             const history_btn = document.createElement('div')
             history_btn.className = "action-btn-widget history-btn-widget"
             const his_icon = document.createElement('img')
@@ -740,6 +746,8 @@
                     const btn = document.getElementById(e.target.textContent)
                     btn.style = renderUi(NumberBtn[index].status ? `background-image: linear-gradient(${color.top_neon}, ${color.bot_neon})` :
                         `background-color: ${color.btn_dis}`)
+                    
+                        mathToken(NumberBtn)
                 })
                 ct_num_select.appendChild(btn_num)
             })
@@ -767,7 +775,11 @@
             `
             const input = document.createElement('input')
             input.className = 'input-widget'
-            input.placeholder = "Enter token /numbers selected"
+            input.id = 'input-widget'
+            input.onchange = function() {
+                mathToken(NumberBtn)
+            };
+            input.placeholder = "Enter tokens per number"
             input.type = 'number'
             input.style = `font-family: "Merienda", serif; font-weight: 700;outline:none; background-color: transparent; border: none; color:white; font-size: 1.25rem;`
             ctn_input.appendChild(img)
@@ -775,10 +787,13 @@
             top.appendChild(ctn_input)
             card_ctn_bet.appendChild(top)
             const btn_bet = document.createElement('button')
+            btn_bet.id = "play-widget"
             btn_bet.style = `cursor: pointer; border-radius: 5px; color: white; padding: 0px 20px;border: 0px; font-size: 18px; font-family: "Merienda", serif; font-weight: 700;outline:none; height: 50px;background-image: linear-gradient(${color.top_neon}, ${color.bot_neon})`
             btn_bet.textContent = "Play"
             top.appendChild(btn_bet)
             const_ct_bet.appendChild(top)
+            const act_div = document.createElement('div')
+            act_div.style = `display: flex; padding: 0% 5%; flex:1; justify-content: center;`
             const ctn_btn_action = document.createElement('div')
             ctn_btn_action.className = "group-actbtn-widget "
             const auto_selct = document.createElement('button')
@@ -789,8 +804,9 @@
             remove.textContent = "CLEAR"
             ctn_btn_action.appendChild(auto_selct)
             ctn_btn_action.appendChild(remove)
-            const_ct_bet.appendChild(ctn_btn_action)
             card_ctn_bet.appendChild(const_ct_bet)
+            act_div.appendChild(ctn_btn_action)
+            container.appendChild(act_div)
             container.appendChild(card_ctn_bet)
 
             const jackpot = document.createElement('audio')
@@ -938,7 +954,7 @@
                 const tx = true
                 if (tx) {
                     add_coin.play()
-                    showNoti(`You bet ${value} ${gameData.symbol} for ${numbers.map(item => item.number).join(", ")}`, true)
+                    showNoti(`You bet ${ NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.map(item => item.number).join(", ")}`, true)
                     const count_bet = document.getElementById('count_bet')
                     count_bet.textContent = new Intl.NumberFormat('de-DE').format(total_bet + value)
                     total_bet += value
@@ -954,6 +970,7 @@
                     el.style = renderUi(NumberBtn[index].status ? `background-image: linear-gradient(${color.top_neon}, ${color.bot_neon})` :
                         `background-color: ${color.btn_dis}`)
                 })
+                mathToken(NumberBtn)
             })
             remove.addEventListener('click', () => {
                 NumberBtn = Array(100).fill().map((_, i) => ({ number: (`0${i}`).slice(-2), status: false }));
@@ -961,8 +978,9 @@
                 numbers.forEach((el) => {
                     el.style = renderUi(`background-color: ${color.btn_dis}`)
                 })
-
+                mathToken(NumberBtn)
             })
+            
         }
 
         createInitialElements()
