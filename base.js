@@ -516,6 +516,14 @@
                 color: black;
             }
 
+            .top-widget {
+                gap: 20px; display: flex; flex-direction: row; width: 100%;
+            }
+
+            .input-widget {
+                width: 100%;
+            }
+
             @keyframes moveBackground {
                 0% { background-position: center top; }
                 50% { background-position: right top; }
@@ -550,6 +558,12 @@
                     width: 50%;
                     text-wrap: nowrap;
                     overflow: hidden
+                }
+                .top-widget {
+                    flex-direction: column;
+                }
+                .input-widget {
+                    width: 100%;
                 }
             }
         `
@@ -689,7 +703,7 @@
             info_btn.className = "action-btn-widget info-btn-widget"
             info_btn.textContent = '?'
             const gropu_btn = document.createElement('div')
-            gropu_btn.style=`display:flex; flex-direction:row; align-items:center;gap:10px;`
+            gropu_btn.style = `display:flex; flex-direction:row; align-items:center;gap:10px;`
             history_btn.appendChild(his_icon)
             gropu_btn.appendChild(history_btn)
             gropu_btn.appendChild(info_btn)
@@ -740,10 +754,10 @@
             const_ct_bet.className = "card-ct-bet"
 
             const top = document.createElement('div')
-            top.style = `gap: 20px; display: flex; flex-direction: row; width: 100%;`
+            top.className = "top-widget"
             const ctn_input = document.createElement('div')
             ctn_input.style = `
-                width: 100%;flex: 1;align-items: center; border-radius: 5px; display: flex;flex-direction: row;gap: 10px;padding: 10px;background-color: #151F3B;
+                flex: 1;align-items: center; border-radius: 5px; display: flex;flex-direction: row;gap: 10px;padding: 10px;background-color: #151F3B;
             `
             const img = document.createElement('img')
             img.src = Image(gameData.icon)
@@ -752,7 +766,8 @@
                 height: 30px;
             `
             const input = document.createElement('input')
-            input.placeholder = "Enter token"
+            input.className = 'input-widget'
+            input.placeholder = "Enter token /numbers selected"
             input.type = 'number'
             input.style = `font-family: "Merienda", serif; font-weight: 700;outline:none; background-color: transparent; border: none; color:white; font-size: 1.25rem;`
             ctn_input.appendChild(img)
