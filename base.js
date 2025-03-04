@@ -120,6 +120,7 @@
         { id: "9234285", size: "8342849", total: "46546.5" },
         { id: "9234284", size: "8342850", total: "926382.56" },
     ]
+    let current_block;
     // Hàm xử lý 
     function Image(id) {
         return `https://soc.bitrefund.co/assets/${id}`
@@ -199,6 +200,49 @@
     function getNetwork(chain_id) {
         return network.find((item) => item.chain_id == chain_id);
     };
+
+    // Connect server
+    async function getBlock() {
+        current_block = await fetch("https://block.nguyenxuanquynh1812nc1.workers.dev/", {
+            method: "GET",
+        })
+            .then((reponse) => reponse.json())
+            .then((data) => data)
+            .catch((err) => {
+                // console.log("ERR ===", err)
+                return false;
+            })
+
+        if (!current_block) {
+            window.location.reload()
+        }
+    }
+
+    function connectBlockChain() {
+        const socket = new WebSocket('wss://ws.blockchain.info/inv');
+
+        socket.onopen = function (event) {
+            socket.send(JSON.stringify({ op: "blocks_sub" }));
+        };
+
+        socket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            if (data.op === "block") {
+                current_block = data.x
+                const block = document.getElementById('current-block')
+                block.textContent = current_block.height
+            }
+        };
+
+        socket.onclose = function (event) {
+            connectBlockChain()
+        };
+
+        socket.onerror = function (error) {
+            console.error('WebSocket error:', error);
+        };
+    }
+
 
     // Load JS
     function import_js() {
@@ -341,8 +385,13 @@
                 display: flex;
                 padding: 5px 0px;
                 flex-direction: row;
-                justify-content: right;
-                gap: 5px
+                justify-content: space-between;
+                gap: 5px;
+                font-size: 32px;
+                margin: 0px;
+                color: white;
+                align-items: center;
+                font-family: "Merienda", serif;
             }
             .action-btn-widget {
                 width: 35px;
@@ -628,7 +677,9 @@
 
             // Create Buutton history, button info
             const action_div = document.createElement('div')
-            action_div.className = "action-div-widget"
+            action_div.className = "action-div-widget "
+            action_div.id = "current-block"
+            action_div.textContent = current_block.height
             const history_btn = document.createElement('div')
             history_btn.className = "action-btn-widget history-btn-widget"
             const his_icon = document.createElement('img')
@@ -637,9 +688,12 @@
             const info_btn = document.createElement('div')
             info_btn.className = "action-btn-widget info-btn-widget"
             info_btn.textContent = '?'
+            const gropu_btn = document.createElement('div')
+            gropu_btn.style=`display:flex; flex-direction:row; align-items:center;gap:10px;`
             history_btn.appendChild(his_icon)
-            action_div.appendChild(history_btn)
-            action_div.appendChild(info_btn)
+            gropu_btn.appendChild(history_btn)
+            gropu_btn.appendChild(info_btn)
+            action_div.appendChild(gropu_btn)
             container.appendChild(action_div)
 
             // Pig Image
@@ -929,7 +983,10 @@
     data_game().then((data) => {
         gameData = data
         changeFavicon(Image(gameData.icon))
-        GenarateUI()
+        getBlock().then(() => {
+            connectBlockChain()
+            GenarateUI()
+        })
 
     })
 })();
