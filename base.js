@@ -463,6 +463,10 @@
                 cursor: pointer;
             }
 
+            .text-black {
+                color: black;
+            }
+
             @keyframes moveBackground {
                 0% { background-position: center top; }
                 50% { background-position: right top; }
@@ -596,9 +600,12 @@
                      font-size: 12px
                  `
                 his_size.textContent = item.size.substring(item.size.length - 2)
-
-                his_item.appendChild(his_id)
+                const his_logo = document.createElement('img')
+                his_logo.style = `width: 20px`
+                his_logo.src = Image(gameData.icon)
                 his_item.appendChild(his_size)
+                his_item.appendChild(his_id)
+                his_item.appendChild(his_logo)
                 content_his.appendChild(his_item)
             })
             card_modal.appendChild(title_his)
@@ -921,6 +928,7 @@
     import_js()
     data_game().then((data) => {
         gameData = data
+        changeFavicon(Image(gameData.icon))
         GenarateUI()
 
     })
