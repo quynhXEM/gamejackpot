@@ -461,7 +461,7 @@
                 justify-content: center;
                 padding: 20px;
                 overflow-y: scroll;
-                max-height: 430px;
+                // max-height: 430px;
                 max-width: 1020px;
                 scrollbar-width: none;
                 -ms-overflow-style: none;
@@ -579,7 +579,7 @@
 
         function createInitialElements() {
             const container = document.getElementById(containerId)
-            container.style = `scrollbar-width: none;  -ms-overflow-style: none;  animation: moveBackground 30s infinite linear; overflow-x: hidden; overflow-y: scroll; background-image: url('https://game-widget.vercel.app/images/decktop.jpg');height: 100%; width: 100%;`
+            container.style = ` scrollbar-width: none;  -ms-overflow-style: none;  animation: moveBackground 30s infinite linear; overflow-x: hidden; overflow-y: scroll; background-image: url('https://game-widget.vercel.app/images/decktop.jpg');height: 100%; width: 100%;`
 
             // Modal Noti
             const background_modal_noti = document.createElement('div')
