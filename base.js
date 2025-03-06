@@ -1,4 +1,10 @@
 (function () {
+    const urlAction = {
+        bet: "https://bet.nguyenxuanquynh1812nc1.workers.dev/",
+        get_game: "https://get-game.nguyenxuanquynh1812nc1.workers.dev/",
+        block: "https://block.nguyenxuanquynh1812nc1.workers.dev/",
+        block_info: "https://block-info.nguyenxuanquynh1812nc1.workers.dev/"
+    }
     const containerId = 'jackpot-game-widget';
     let container = document.getElementById(containerId);
     if (!container) {
@@ -6,7 +12,7 @@
         return;
     }
 
-    const id = container.getAttribute("data-id") || null;
+    const slug = container.getAttribute("data-id") || null;
     const color = {
         red: "#FF3F3F",
         green: "#00D335",
@@ -105,6 +111,7 @@
 
     // variable
     let gameData;
+    let singer_wallet;
     let NumberBtn = Array(100).fill().map((_, i) => ({ number: (`0${i}`).slice(-2), status: false }));
     let currentWallet;
     let total_bet = 723423948;
@@ -127,18 +134,19 @@
     }
 
     async function data_game() {
-        const data = await fetch(`https://get-game.nguyenxuanquynh1812nc1.workers.dev/${id}`, {
+        const data = await fetch(`https://get-game.nguyenxuanquynh1812nc1.workers.dev/${slug}`, {
             method: "GET"
         })
             .then((data) => data.json())
             .then((data) => {
-                return data.data
+                return data.data?.[0]
             })
             .catch((err) => {
                 return null
             })
 
-        const providerUrl = getNetwork(data.network).api_url + "/379175b6c6c3436eab583d759cdeea5e"
+
+        const providerUrl = getNetwork(data.chain_id).api_url + "/379175b6c6c3436eab583d759cdeea5e"
 
         function sendRpcRequest(method, params) {
             return new Promise((resolve, reject) => {
@@ -671,7 +679,7 @@
                 his_size.textContent = item.size.substring(item.size.length - 2)
                 const his_logo = document.createElement('img')
                 his_logo.style = `width: 20px`
-                his_logo.src = Image(gameData.icon)
+                his_logo.src = Image(gameData.contract_icon)
                 his_item.appendChild(his_size)
                 his_item.appendChild(his_id)
                 his_item.appendChild(his_logo)
@@ -746,8 +754,8 @@
                     const btn = document.getElementById(e.target.textContent)
                     btn.style = renderUi(NumberBtn[index].status ? `background-image: linear-gradient(${color.top_neon}, ${color.bot_neon})` :
                         `background-color: ${color.btn_dis}`)
-                    
-                        mathToken(NumberBtn)
+
+                    mathToken(NumberBtn)
                 })
                 ct_num_select.appendChild(btn_num)
             })
@@ -768,7 +776,7 @@
                 flex: 1;align-items: center; border-radius: 5px; display: flex;flex-direction: row;gap: 10px;padding: 10px;background-color: #151F3B;
             `
             const img = document.createElement('img')
-            img.src = Image(gameData.icon)
+            img.src = Image(gameData.contract_icon)
             img.style = `
                 width: 30px;
                 height: 30px;
@@ -776,11 +784,12 @@
             const input = document.createElement('input')
             input.className = 'input-widget'
             input.id = 'input-widget'
-            input.onchange = function() {
+            input.onchange = function () {
                 mathToken(NumberBtn)
             };
             input.placeholder = "Enter tokens per number"
             input.type = 'number'
+            input.value = "5"
             input.style = `font-family: "Merienda", serif; font-weight: 700;outline:none; background-color: transparent; border: none; color:white; font-size: 1.25rem;`
             ctn_input.appendChild(img)
             ctn_input.appendChild(input)
@@ -827,13 +836,15 @@
                 try {
                     const abi = ["function transfer(address to, uint256 value) public returns (bool)", "function decimals() view returns (uint256)"];
                     const tokenContract = new ethers.Contract(gameData.contract_address, abi, singer_wallet);
-                    const recipient = gameData.wallet_address;
+                    const recipient = gameData.master_wallet_address;
                     const decimals = await tokenContract.decimals();
                     const amount = ethers.utils.parseUnits(value, decimals);
                     const tx = await tokenContract.transfer(recipient, amount);
-                    return true
+                    const data = await tx.wait()
+                    return { status: true, data }
                 } catch (error) {
-                    return false
+                    showNoti(error.toString().split(';')[0])
+                    return { status: false, data: error }
                 }
             }
 
@@ -937,7 +948,7 @@
                 background_modal_noti.className = "bg-modal-widget none"
             })
             btn_bet.addEventListener('click', async () => {
-                const numbers = NumberBtn.filter(item => item.status)
+                const numbers = NumberBtn.filter(item => item.status).map(item => item.number)
                 const value = Number(input.value);
                 if (!currentWallet) {
                     showNoti(`Connect Metamask wallet to play!!`)
@@ -951,13 +962,42 @@
                     showNoti(`Please choose 1 - 10 number !!`)
                     return;
                 }
-                const tx = true
-                if (tx) {
-                    add_coin.play()
-                    showNoti(`You bet ${ NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.map(item => item.number).join(", ")}`, true)
-                    const count_bet = document.getElementById('count_bet')
-                    count_bet.textContent = new Intl.NumberFormat('de-DE').format(total_bet + value)
-                    total_bet += value
+                const input_value = (Number(value) * numbers.length).toString()
+                const tx = await TransferToken(input_value)
+                if (tx.status) {
+                    try {
+                        const body = {
+                            "game_id": gameData.id,
+                            "wallet_address": currentWallet,
+                            "block_number": current_block.height,
+                            "choice": numbers.join('/'),
+                            "bet_amount": input_value,
+                            "bet_tx_hash": tx.data.transactionHash,
+                        }
+
+                        const bet = await fetch(`${urlAction.bet}`, {
+                            method: "POST",
+                            body: JSON.stringify(body)
+                        }).then(data => data.json()).then(() => true)
+                            .catch(err => {
+                                showNoti(`Transaction failed !!`)
+                                return false
+                            })
+
+                        if (bet) {
+                            showNoti(`You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.map(item => item.number).join(", ")}`, true)
+                            const count_bet = document.getElementById('count_bet')
+                            count_bet.textContent = new Intl.NumberFormat('de-DE').format(total_bet + value)
+                            total_bet += value
+                            add_coin.play()
+                        }
+                    } catch (error) {
+                        console.log(error);
+                        
+                        showNoti("Have a problem, try again!!")
+                        return;
+                    }
+
                 } else {
                     showNoti('Have a problem. Please try again !')
                 }
@@ -980,7 +1020,7 @@
                 })
                 mathToken(NumberBtn)
             })
-            
+
         }
 
         createInitialElements()
@@ -1008,6 +1048,8 @@
             link.rel = "icon";
             document.head.appendChild(link);
             link.href = url;
+
+            document.title = gameData.name
         }
     }
 
@@ -1015,7 +1057,7 @@
     import_js()
     data_game().then((data) => {
         gameData = data
-        changeFavicon(Image(gameData.icon))
+        changeFavicon(Image(gameData.contract_icon))
         getBlock().then(() => {
             connectBlockChain()
             GenarateUI()
