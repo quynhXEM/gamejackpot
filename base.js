@@ -114,7 +114,7 @@
     let singer_wallet;
     let NumberBtn = Array(100).fill().map((_, i) => ({ number: (`0${i}`).slice(-2), status: false }));
     let currentWallet;
-    let total_bet = 723423948;
+    let total_bet = 0;
     let histories = [
         { id: "9234293", size: "8342837", total: "283829" },
         { id: "9234292", size: "8342865", total: "6567653" },
@@ -213,6 +213,10 @@
         document.getElementById('play-widget').innerText = "Play " + NumberBtn.filter((item) => item.status).length * Number(document.getElementById('input-widget').value) + gameData.symbol
     }
 
+    function renderTotal(total_bet) {
+        return new Intl.NumberFormat('de-DE').format(total_bet) + " " + gameData.symbol
+    }
+
     // Connect server
     async function getBlock() {
         current_block = await fetch("https://block.nguyenxuanquynh1812nc1.workers.dev/", {
@@ -242,6 +246,9 @@
             if (data.op === "block") {
                 current_block = data.x
                 const block = document.getElementById('current-block')
+                total_bet = 0
+                const bet = document.getElementById('count-bet')
+                bet.innerText = renderTotal(total_bet)
                 block.textContent = "#" + current_block.height
             }
         };
@@ -255,6 +262,86 @@
         };
     }
 
+    function connectGamedata() {
+        Ssocket = new WebSocket('wss://soc.bitrefund.co/websocket')
+
+        Ssocket.onopen = function (event) {
+            Ssocket.send(JSON.stringify({
+                type: "auth",
+                access_token: "vj0N9mA85sds38EnokvhkKl1uK5T83Px"
+            }))
+        }
+        Ssocket.onmessage = function (event) {
+            const response = JSON.parse(event.data);
+            switch (response.type) {
+                case 'auth':
+                    if (response.status === 'ok') {
+                        Ssocket.send(
+                            JSON.stringify({
+                                type: 'subscribe',
+                                collection: 'bet',
+                                query: {
+                                    filter: {
+                                        "game_id": {
+                                            "_eq": gameData.id
+                                        },
+                                        "block_height": {
+                                            "_eq": current_block.height
+                                        }
+                                    },
+                                    fields: [
+                                        '*',
+                                    ]
+                                }
+                            })
+                        )
+                    }
+                    break;
+                case 'subscription':
+                    const { data } = response;
+                    const count_bet = document.getElementById('count_bet')
+                    
+                    switch (response.event) {
+                        case 'init':
+                            const user = data.find(item => item.wallet_address)
+                            total_bet = data.reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
+                            count_bet.textContent = renderTotal(total_bet)
+                            break;
+                        case 'create':
+                            total_bet += data.reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
+                            count_bet.textContent = renderTotal(total_bet)
+                            break;
+                        case 'delete':
+                            break;
+                        case 'update':
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'ping':
+                    Ssocket.send(
+                        JSON.stringify({
+                            type: 'pong',
+                        })
+                    )
+                    console.log("ping");
+
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        Ssocket.onclose = function () {
+            // console.log("Disconnect Ssocket");
+
+        }
+        Ssocket.onerror = function () {
+            // console.log("Connect Ssocket faild. Reconnecting.....");
+            connectGamedata()
+        }
+    }
 
     // Load JS
     function import_js() {
@@ -730,7 +817,7 @@
             ctn_pig.innerHTML = `
                 <dotlottie-player src="https://lottie.host/d0e9200a-390f-4ddc-bc4a-cc834aae42af/ZIbJe8tm8f.lottie"
                 background="transparent" speed="1" style="width: 200px; height: 200px" loop autoplay></dotlottie-player>
-                <p id="count_bet" class="ctn-jackpot-widget">${new Intl.NumberFormat('de-DE').format(total_bet)} ${gameData.symbol}</p>
+                <p id="count_bet" class="ctn-jackpot-widget">${renderTotal(total_bet)}</p>
             `
             container.appendChild(ctn_pig)
 
@@ -969,7 +1056,7 @@
                         const body = {
                             "game_id": gameData.id,
                             "wallet_address": currentWallet,
-                            "block_number": current_block.height,
+                            "block_height": current_block.height,
                             "choice": numbers.join('/'),
                             "bet_amount": input_value,
                             "bet_tx_hash": tx.data.transactionHash,
@@ -986,14 +1073,11 @@
 
                         if (bet) {
                             showNoti(`You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.map(item => item.number).join(", ")}`, true)
-                            const count_bet = document.getElementById('count_bet')
-                            count_bet.textContent = new Intl.NumberFormat('de-DE').format(total_bet + value)
-                            total_bet += value
                             add_coin.play()
                         }
                     } catch (error) {
                         console.log(error);
-                        
+
                         showNoti("Have a problem, try again!!")
                         return;
                     }
@@ -1060,8 +1144,13 @@
         changeFavicon(Image(gameData.contract_icon))
         getBlock().then(() => {
             connectBlockChain()
+            connectGamedata()
             GenarateUI()
         })
 
+    })
+
+    window.addEventListener('unload', () => {
+        Ssocket.close()
     })
 })();
