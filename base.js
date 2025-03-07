@@ -111,6 +111,8 @@
 
     // variable
     let gameData;
+    let betInfo;
+    let Ssocket;
     let singer_wallet;
     let NumberBtn = Array(100).fill().map((_, i) => ({ number: (`0${i}`).slice(-2), status: false }));
     let currentWallet;
@@ -247,9 +249,11 @@
                 current_block = data.x
                 const block = document.getElementById('current-block')
                 total_bet = 0
-                const bet = document.getElementById('count-bet')
+                const bet = document.getElementById('count_bet')
                 bet.innerText = renderTotal(total_bet)
                 block.textContent = "#" + current_block.height
+
+                window.location.reload()
             }
         };
 
@@ -300,10 +304,9 @@
                 case 'subscription':
                     const { data } = response;
                     const count_bet = document.getElementById('count_bet')
-                    
+
                     switch (response.event) {
                         case 'init':
-                            const user = data.find(item => item.wallet_address)
                             total_bet = data.reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
                             break;
@@ -325,8 +328,6 @@
                             type: 'pong',
                         })
                     )
-                    console.log("ping");
-
                     break;
                 default:
                     break;
@@ -541,6 +542,7 @@
                 margin: 0px;
                 border: 2px solid #00CCFE;
                 text-wrap: none;
+                transaction: 
             }
 
             .num-ctn-widget {
@@ -1045,39 +1047,39 @@
                     showNoti(`Please enter token to bet!!`)
                     return;
                 }
-                if (!numbers.length) {
-                    showNoti(`Please choose 1 - 10 number !!`)
+                if (numbers.length <= 0) {
+                    showNoti(`Please choose numbers !!`)
                     return;
                 }
                 const input_value = (Number(value) * numbers.length).toString()
                 const tx = await TransferToken(input_value)
                 if (tx.status) {
                     try {
-                        const body = {
-                            "game_id": gameData.id,
-                            "wallet_address": currentWallet,
-                            "block_height": current_block.height,
-                            "choice": numbers.join('/'),
-                            "bet_amount": input_value,
-                            "bet_tx_hash": tx.data.transactionHash,
+                        const body = (num) => {
+                            
+                            return {
+                                "game_id": gameData.id,
+                                "wallet_address": currentWallet,
+                                "block_height": current_block.height,
+                                "choice": num,
+                                "bet_amount": value.toString(),
+                                "bet_tx_hash": tx.data.transactionHash,
+                            }
                         }
-
-                        const bet = await fetch(`${urlAction.bet}`, {
-                            method: "POST",
-                            body: JSON.stringify(body)
-                        }).then(data => data.json()).then(() => true)
-                            .catch(err => {
-                                showNoti(`Transaction failed !!`)
-                                return false
+                        const promise = await Promise.all(
+                            numbers.map(item => {
+                                fetch(`${urlAction.bet}`, {
+                                    method: "POST",
+                                    body: JSON.stringify(body(item))
+                                })
                             })
+                        ).then(() => true).catch(() => false)
 
-                        if (bet) {
-                            showNoti(`You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.map(item => item.number).join(", ")}`, true)
+                        if (promise) {
+                            showNoti(`You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.join(", ")}`, true)
                             add_coin.play()
                         }
                     } catch (error) {
-                        console.log(error);
-
                         showNoti("Have a problem, try again!!")
                         return;
                     }
