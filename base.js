@@ -1076,7 +1076,7 @@
                         ).then(() => true).catch(() => false)
 
                         if (promise) {
-                            showNoti(`You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.map(item => item.number).join(", ")}`, true)
+                            showNoti(`You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.join(", ")}`, true)
                             add_coin.play()
                         }
                     } catch (error) {
