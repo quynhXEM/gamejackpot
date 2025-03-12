@@ -111,24 +111,14 @@
 
     // variable
     let gameData;
-    let betInfo;
+    let histories = [];
+    let hisData = [];
+    let hisIndex = -1
     let Ssocket;
     let singer_wallet;
     let NumberBtn = Array(100).fill().map((_, i) => ({ number: (`0${i}`).slice(-2), status: false }));
     let currentWallet;
     let total_bet = 0;
-    let histories = [
-        { id: "9234293", size: "8342837", total: "283829" },
-        { id: "9234292", size: "8342865", total: "6567653" },
-        { id: "9234291", size: "8342835", total: "45364536" },
-        { id: "9234290", size: "8342876", total: "3455345" },
-        { id: "9234289", size: "8342890", total: "4395639.8457" },
-        { id: "9234288", size: "8342872", total: "5645.786" },
-        { id: "9234287", size: "8342801", total: "45.77" },
-        { id: "9234286", size: "8342855", total: "436547.8" },
-        { id: "9234285", size: "8342849", total: "46546.5" },
-        { id: "9234284", size: "8342850", total: "926382.56" },
-    ]
     let current_block;
     // Hàm xử lý 
     function Image(id) {
@@ -288,9 +278,6 @@
                                     filter: {
                                         "game_id": {
                                             "_eq": gameData.id
-                                        },
-                                        "block_height": {
-                                            "_eq": current_block.height
                                         }
                                     },
                                     fields: [
@@ -304,14 +291,15 @@
                 case 'subscription':
                     const { data } = response;
                     const count_bet = document.getElementById('count_bet')
-
                     switch (response.event) {
                         case 'init':
-                            total_bet = data.reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
+                            historyData(data.filter(item => item.status != 'waiting_result'))
+                            hisData = data.filter(item => item.status != 'waiting_result')
+                            total_bet = data.filter(item => item.block_height == current_block.height).reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
                             break;
                         case 'create':
-                            total_bet += data.reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
+                            total_bet += data.filter(item => item.block_height == current_block.height).reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
                             break;
                         case 'delete':
@@ -342,6 +330,47 @@
             // console.log("Connect Ssocket faild. Reconnecting.....");
             connectGamedata()
         }
+    }
+
+    // History
+    function historyData(data) {
+        const groupedByBlock = {};
+        data.forEach(item => {
+            if (!groupedByBlock[item.block_height]) {
+                groupedByBlock[item.block_height] = {
+                    block_height: item.block_height,
+                    total: 0,
+                    bet: 0,
+                    total_num_win: 0,
+                    numbers: [],
+                    result: item.result
+                };
+            }
+            // Tính tổng bet_amount cho mỗi block
+            groupedByBlock[item.block_height].total += parseFloat(item.bet_amount);
+            groupedByBlock[item.block_height].total_num_win += parseFloat(item.result == item.choice ? item.bet_amount : 0)
+            // Kiểm tra nếu wallet address trùng với input
+            if (item.wallet_address === currentWallet) {
+                groupedByBlock[item.block_height].bet += parseFloat(item.bet_amount);
+
+                // Tổng hợp danh sách số đã cược
+                const existingNumber = groupedByBlock[item.block_height].numbers.find(n => n.number === item.choice);
+                if (existingNumber) {
+                    existingNumber.amount += parseFloat(item.bet_amount);
+                } else {
+                    groupedByBlock[item.block_height].numbers.push({ number: item.choice, amount: parseFloat(item.bet_amount) });
+                }
+            }
+        });
+
+        // Chuyển đổi kết quả sang mảng và sắp xếp theo block_height giảm dần
+        histories = Object.values(groupedByBlock).sort((a, b) => a.block_height - b.block_height);
+
+        histories.forEach((item, index) => {
+            histories[index].total += parseFloat(histories[index-1]?.total_num_win == 0 ? (histories[index-1]?.total || 0) : 0)
+        })
+
+        histories.sort((a, b) => b.block_height - a.block_height);
     }
 
     // Load JS
@@ -379,6 +408,13 @@
                 scrollbar-width: none;
                 -ms-overflow-style: none;
             }
+
+            * {
+                padding: 0;
+                border: 0;
+                box-sizing: border-box;
+            }
+                
             input[type=number]::-webkit-inner-spin-button, 
             input[type=number]::-webkit-outer-spin-button {
                 -webkit-appearance: none;
@@ -428,10 +464,11 @@
             .block {
                 display: block;
             }
-            .card-modal-widget {
+           .card-modal-widget {
                 background-color: white;
                 flex:1;
                 display: flex;
+                overflow: hidden;
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
@@ -669,6 +706,135 @@
                     width: 100%;
                 }
             }
+
+             p,
+            h2 {
+                margin: 0px;
+                padding: 0px;
+                font-family: "Merienda", serif;
+                font-optical-sizing: auto;
+                font-weight: 700;
+                font-style: normal;
+            }
+
+            .title-his-widget {
+                width: 100%;
+                padding: 10px;
+                border-bottom: 1px solid rgb(233, 233, 233);
+                background-color: rgb(237, 237, 237);
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .closed-his {
+                cursor: pointer;
+            }
+
+            .content-his-widget {
+                text-align: center;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+            }
+
+            .resault-content-widget {
+                width: 80px;
+                height: 80px;
+                border-radius: 360px;
+                display: flex;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                margin: 10px;
+            }
+
+            .resault-content-widget p {
+                font-size: 35px;
+                font-weight: bold;
+                color: white;
+            }
+
+            .bet-his-widget {
+                display: flex;
+                flex: 1;
+                width: 100%;
+
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .bet-box-his {
+                padding: 5px;
+                display: flex;
+                flex: 1;
+                flex-direction: column;
+                justify-content: center;
+                gap: 5px;
+                border-radius: 5px;
+            }
+            .bet-box-his > p {
+                font-weight: 700;
+                font-size: 16px
+            }
+
+            .box-49 {
+                background-color:rgb(252, 244, 223);
+            }
+
+            .box-50 {
+                background-color: #DCFCE7;
+            }
+
+            .total-content {
+                flex-wrap: nowrap;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .footer-his-widget {
+                display: flex;
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px;
+            }
+            .btn-action-his {
+                background-color: transparent;
+                outline: none;
+                padding: 5px;
+                border-radius: 5px;
+                border: 1px solid gray;
+                cursor: pointer;
+
+            }
+            .btn-action-his p {
+                font-weight: 500;
+            }
+
+            .bg-49 {
+                background-color: ${color.red}
+            }
+
+            .bg-50 {
+                background-color: ${color.green}
+            }
+
+            .bet-list-his {
+                margin-top: 20px;
+                display: flex;
+                flex-wrap: nowrap;
+                overflow: scroll;
+                flex-direction: row;
+                gap: 10px;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                width: -webkit-fill-available;
+            }
+
         `
 
         document.head.appendChild(style)
@@ -731,51 +897,41 @@
             background_modal.id = "bg-modal-widget"
             const card_modal = document.createElement('div')
             card_modal.className = "card-modal-widget"
-            const title_his = document.createElement('p')
-            title_his.className = "tilte-modal-widget"
-            title_his.innerText = "History games"
-            const content_his = document.createElement('div')
-            content_his.className = "content-modal-his-widget"
-            histories.forEach(item => {
-                const his_item = document.createElement('div')
-                his_item.style = `
-                     display: flex;
-                     flex: 1;
-                     text-align: center;
-                     padding: 10px;
-                     box-sizing: border-box;
-                     flex-direction: row;
-                     justify-content: left;
-                     align-items: center; 
-                     gap: 10px;
-                 `
-                const his_id = document.createElement('p')
-                his_id.innerText = new Intl.NumberFormat('de-DE').format(item.total)
-                his_id.className = "text-black merienda-text-widget"
-                his_id.style = `
-                     text-wrap: nowrap
-                 `
-                const his_size = document.createElement('div')
-                his_size.style = `
-                     border-radius: 5px;
-                     background-color: ${color.orange};
-                     font-family: "Merienda", serif;
-                     font-weight: 700;
-                     color: white;
-                     padding: 10px;
-                     font-size: 12px
-                 `
-                his_size.textContent = item.size.substring(item.size.length - 2)
-                const his_logo = document.createElement('img')
-                his_logo.style = `width: 20px`
-                his_logo.src = Image(gameData.contract_icon)
-                his_item.appendChild(his_size)
-                his_item.appendChild(his_id)
-                his_item.appendChild(his_logo)
-                content_his.appendChild(his_item)
-            })
-            card_modal.appendChild(title_his)
-            card_modal.appendChild(content_his)
+            card_modal.innerHTML = `
+                <div class="title-his-widget">
+                    <p class="merienda-text-widget" style="font-size: x-large;">🧭 History</p>
+                    <p class="closed-his" id="closed-his">❌</p>
+                </div>
+                <div class="content-his-widget">
+                    <p class="merienda-text-widget">Block</p>
+                    <h1 id="block-show-his" class="merienda-text-widget">#${current_block.height}</h1>
+                    <div id="resault-content" class="resault-content-widget bg-49">
+                        <p id="resault-show-his" class="merienda-text-widget">--</p>
+                    </div>
+                    <div class="bet-his-widget">
+                        <div class="bet-box-his box-49">
+                            <p>Total</p>
+                            <p id="total-his">---</p>
+                        </div>
+                        <div class="bet-box-his box-50">
+                            <p>Your Bet</p>
+                            <p id="bet-his">---</p>
+                        </div>
+                    </div>
+                    <p style="margin-top: 20px;">Your choice</p>
+                    <div id="bet-list" class="bet-list-his">
+                        Connect wallet to show !
+                    </div>
+                </div>
+                <div class="footer-his-widget ">
+                    <button class="btn-action-his btn-his-pre">
+                        <p> ◀️ Previous </p>
+                    </button>
+                    <button class="btn-action-his btn-his-next">
+                        <p> Next ▶️</p>
+                    </button>
+                </div>
+            `
             background_modal.appendChild(card_modal)
             document.body.appendChild(background_modal)
 
@@ -949,6 +1105,46 @@
             // Btn action
             const btnwallet = document.querySelector('.btn-wallet-widget');
             const btnwallet_text = document.querySelector('.btn-wallet-text-widget');
+            const closed_his = document.getElementById('closed-his')
+            const his_Prev = card_modal.querySelector('.btn-his-pre');
+            const his_Next = card_modal.querySelector('.btn-his-next');
+
+            function reRenderHis(index) {
+                const item = histories[index]
+                if (item) {
+                    const resault_content = document.getElementById('resault-content')
+                    resault_content.className = item.total_num_win > 0 ? "resault-content-widget bg-50" : "resault-content-widget bg-49"
+                    const block_show_his = document.getElementById('block-show-his')
+                    block_show_his.innerText = "#" + item.block_height
+                    const resault_show_his = document.getElementById('resault-show-his')
+                    resault_show_his.innerText = item.result
+
+                    const total_his = document.getElementById('total-his')
+                    const bet_his = document.getElementById('bet-his')
+                    total_his.innerText = Number(item.total).toLocaleString('vi-VN','utf8')
+                    bet_his.innerText = Number(item.bet).toLocaleString('vi-VN','utf8')
+
+                    if (currentWallet) {
+                        const bet_list = document.getElementById('bet-list')
+                        bet_list.innerHTML = ""
+                        if (item.numbers.length != 0) {
+                            item.numbers.map((ob => {
+                                const bet_value = document.createElement('div')
+                                bet_value.style = `font-size: 14px; padding: 5px 10px; border-radius: 5px; background-color: ${ob.number == item.result ? color.green :'rgb(222, 222, 222)'};`;
+                                bet_value.innerHTML = `
+                                <p>${ob.number}</p>
+                                <p style="text-wrap: nowrap;">${ Number(ob.amount).toLocaleString('vi-VN','utf8')}<span>🪙</span></p>
+                            `
+                                bet_list.appendChild(bet_value)
+    
+                            }))
+                        }
+                        
+                    }
+                    hisIndex = index
+                }
+            }
+
             btnwallet.addEventListener('click', async () => {
                 const provider = typeof window.ethereum !== "undefined"
                     ? new ethers.providers.Web3Provider(window.ethereum)
@@ -987,6 +1183,7 @@
                             btnwallet_text.innerText = `${address.slice(0, 6)}...${address.slice(-4)}`;
                             btnwallet.disabled = true;
                             currentWallet = address;
+                            historyData(hisData)
                         } catch (err) {
                             showNoti("Connect Wallet failed ")
                         }
@@ -1021,9 +1218,18 @@
                 }
 
             });
-            background_modal.addEventListener('click', () => {
+            closed_his.addEventListener('click', () => {
                 background_modal.className = "bg-modal-widget none"
             })
+
+            his_Prev.addEventListener('click', function () {
+                reRenderHis(hisIndex - 1)
+            });
+
+            his_Next.addEventListener('click', function () {
+                reRenderHis(hisIndex + 1)
+            });
+
             history_btn.addEventListener('click', () => {
                 background_modal.className = "bg-modal-widget block"
             })
@@ -1056,7 +1262,7 @@
                 if (tx.status) {
                     try {
                         const body = (num) => {
-                            
+
                             return {
                                 "game_id": gameData.id,
                                 "wallet_address": currentWallet,
