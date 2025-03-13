@@ -367,7 +367,7 @@
         histories = Object.values(groupedByBlock).sort((a, b) => a.block_height - b.block_height);
 
         histories.forEach((item, index) => {
-            histories[index].total += parseFloat(histories[index-1]?.total_num_win == 0 ? (histories[index-1]?.total || 0) : 0)
+            histories[index].total += parseFloat(histories[index - 1]?.total_num_win == 0 ? (histories[index - 1]?.total || 0) : 0)
         })
 
         histories.sort((a, b) => b.block_height - a.block_height);
@@ -479,7 +479,7 @@
                 font-weight: 700;
                 font-size: 1.5rem;
                 color: black;
-                margin-top: 20px;
+                margin: 10px;
                 text-align: center;
             }
             .content-modal-his-widget {
@@ -1088,7 +1088,12 @@
                     const data = await tx.wait()
                     return { status: true, data }
                 } catch (error) {
-                    showNoti(error.toString().split(';')[0])
+                    if (error.toString().includes('estimate gas')) {
+                        showNoti("🔴 Insufficient balance")
+                    }
+                    if (error.toString().includes('user rejected')) {
+                        showNoti("🔴 Transaction canceled")
+                    }
                     return { status: false, data: error }
                 }
             }
@@ -1121,8 +1126,8 @@
 
                     const total_his = document.getElementById('total-his')
                     const bet_his = document.getElementById('bet-his')
-                    total_his.innerText = Number(item.total).toLocaleString('vi-VN','utf8')
-                    bet_his.innerText = Number(item.bet).toLocaleString('vi-VN','utf8')
+                    total_his.innerText = Number(item.total).toLocaleString('vi-VN', 'utf8')
+                    bet_his.innerText = Number(item.bet).toLocaleString('vi-VN', 'utf8')
 
                     if (currentWallet) {
                         const bet_list = document.getElementById('bet-list')
@@ -1130,16 +1135,16 @@
                         if (item.numbers.length != 0) {
                             item.numbers.map((ob => {
                                 const bet_value = document.createElement('div')
-                                bet_value.style = `font-size: 14px; padding: 5px 10px; border-radius: 5px; background-color: ${ob.number == item.result ? color.green :'rgb(222, 222, 222)'};`;
+                                bet_value.style = `font-size: 14px; padding: 5px 10px; border-radius: 5px; background-color: ${ob.number == item.result ? color.green : 'rgb(222, 222, 222)'};`;
                                 bet_value.innerHTML = `
                                 <p>${ob.number}</p>
-                                <p style="text-wrap: nowrap;">${ Number(ob.amount).toLocaleString('vi-VN','utf8')}<span>🪙</span></p>
+                                <p style="text-wrap: nowrap;">${Number(ob.amount).toLocaleString('vi-VN', 'utf8')}<span>🪙</span></p>
                             `
                                 bet_list.appendChild(bet_value)
-    
+
                             }))
                         }
-                        
+
                     }
                     hisIndex = index
                 }
@@ -1165,12 +1170,10 @@
                         const web3Provider = new ethers.providers.Web3Provider(walletProvider);
                         const signer = web3Provider.getSigner();
                         const address = await signer.getAddress();
-
-                        showNoti(address)
                         btnwallet_text.innerText = `✅ ${address.slice(0, 6)}...${address.slice(-4)}`;
                         btnwallet.disabled = true;
                     } catch (err) {
-                        showNoti("Cannot connect Wallet on Phone")
+                        showNoti("🔴 Cannot connect Wallet on Phone")
                         console.error("Lỗi kết nối WalletConnect:", err);
                     }
                 } else {
@@ -1185,7 +1188,7 @@
                             currentWallet = address;
                             historyData(hisData)
                         } catch (err) {
-                            showNoti("Connect Wallet failed ")
+                            showNoti("🔴 Connect Wallet failed ")
                         }
                     } else {
                         showNoti("⚠️ Install Metamask to continute");
@@ -1247,67 +1250,59 @@
                 const value = Number(input.value);
 
                 const checkValue = () => {
-                    if (value> Number(gameData.max_bet_amount)) {
-                        showNoti(`Max bet amount is ${gameData.max_bet_amount}`)
+                    if (value > Number(gameData.max_bet_amount)) {
+                        showNoti(`🟡 Max bet amount is ${gameData.max_bet_amount}`)
                         return false
                     }
                     if (value < Number(gameData.min_bet_amount)) {
-                        showNoti(`Min bet amount is ${gameData.min_bet_amount}`)
+                        showNoti(`🟡 Min bet amount is ${gameData.min_bet_amount}`)
                         return false
                     }
                     return true
                 }
-                if(!checkValue()) {
+                if (!checkValue()) {
                     return;
                 }
 
                 if (!currentWallet) {
-                    showNoti(`Connect Metamask wallet to play!!`)
+                    showNoti(`🟡 Connect Metamask wallet to play!!`)
                     return;
                 }
                 if (!value) {
-                    showNoti(`Please enter token to bet!!`)
+                    showNoti(`🟡 Please enter token to bet!!`)
                     return;
                 }
                 if (numbers.length <= 0) {
-                    showNoti(`Please choose numbers !!`)
+                    showNoti(`🟡 Please choose numbers !!`)
                     return;
                 }
                 const input_value = (Number(value) * numbers.length).toString()
                 const tx = await TransferToken(input_value)
                 if (tx.status) {
-                    try {
-                        const body = (num) => {
-
-                            return {
-                                "game_id": gameData.id,
-                                "wallet_address": currentWallet,
-                                "block_height": current_block.height,
-                                "choice": num,
-                                "bet_amount": value.toString(),
-                                "bet_tx_hash": tx.data.transactionHash,
-                            }
+                    const body = (num) => {
+                        return {
+                            "game_id": gameData.id,
+                            "wallet_address": currentWallet,
+                            "block_height": current_block.height,
+                            "choice": num,
+                            "bet_amount": value.toString(),
+                            "bet_tx_hash": tx.data.transactionHash,
                         }
-                        const promise = await Promise.all(
-                            numbers.map(item => {
-                                fetch(`${urlAction.bet}`, {
-                                    method: "POST",
-                                    body: JSON.stringify(body(item))
-                                })
-                            })
-                        ).then(() => true).catch(() => false)
-
-                        if (promise) {
-                            showNoti(`You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.join(", ")}`, true)
-                            add_coin.play()
-                        }
-                    } catch (error) {
-                        showNoti("Have a problem, try again!!")
-                        return;
                     }
-
-                } else {
-                    showNoti('Have a problem. Please try again !')
+                    const promise = await Promise.all(
+                        numbers.map(item => {
+                            fetch(`${urlAction.bet}`, {
+                                method: "POST",
+                                body: JSON.stringify(body(item))
+                            })
+                        })
+                    ).then(() => true).catch(() => false)
+                    if (promise) {
+                        showNoti(`🟢 You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.join(", ")}`, true)
+                        add_coin.play()
+                    } else {
+                        showNoti('🔴 Bet failed! Connect to supported !')
+                    }
                 }
             })
             auto_selct.addEventListener('click', () => {
