@@ -1245,6 +1245,22 @@
             btn_bet.addEventListener('click', async () => {
                 const numbers = NumberBtn.filter(item => item.status).map(item => item.number)
                 const value = Number(input.value);
+
+                const checkValue = () => {
+                    if (value> Number(gameData.max_bet_amount)) {
+                        showNoti(`Max bet amount is ${gameData.max_bet_amount}`)
+                        return false
+                    }
+                    if (value < Number(gameData.min_bet_amount)) {
+                        showNoti(`Min bet amount is ${gameData.min_bet_amount}`)
+                        return false
+                    }
+                    return true
+                }
+                if(!checkValue()) {
+                    return;
+                }
+
                 if (!currentWallet) {
                     showNoti(`Connect Metamask wallet to play!!`)
                     return;
