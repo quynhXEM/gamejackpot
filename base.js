@@ -1367,6 +1367,7 @@
             }
 
             function showNoti(noti, type = false) {
+                background_swap.className = "bg-modal-widget none"
                 title_noti.innerText = noti
                 background_modal_noti.className = "bg-modal-widget block"
                 if (!type) {
