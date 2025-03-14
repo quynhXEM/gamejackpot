@@ -1138,6 +1138,13 @@
                 <h3>Game Requirements:</h3>
                 <p>To play, you need to connect your Metamask wallet. You will need BNB for transaction fees and the <strong>${gameData.symbol}</strong> specified by the game creator for in-game transactions.</p>
 
+                 <h3>First try</h3>
+                    <ul>
+                        <li>Contarct Info: <a target="_blank" href="${getNetwork(gameData.chain_id).scan_url + "/address/" + gameData.contract_address}">Click here!</a></li>
+                        <li>Get tBNB fee: <a target="_blank" href="https://discord.gg/nj5fsyRp">Get fauscet in discord</a></li>
+                        <li>Click to Swap to get ${gameData.symbol} token</li>
+                    </ul>
+                    
                 <h3>How to Play:</h3>
                 <p>After connecting your wallet, <span class="text-highlight-widget">select 1 to 10 numbers from 00 to 99.</span> Then, enter the amount of tokens you wish to bet. The bet will be equally distributed across the numbers you selected. Finally, click the "Play" button to place your bet.</p>
 
