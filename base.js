@@ -125,6 +125,10 @@
         return `https://soc.bitrefund.co/assets/${id}`
     }
 
+    function betBlock(current) {
+        return Number(current) + 2
+    }
+
     async function data_game() {
         const data = await fetch(`https://get-game.nguyenxuanquynh1812nc1.workers.dev/${slug}`, {
             method: "GET"
@@ -241,7 +245,7 @@
                 total_bet = 0
                 const bet = document.getElementById('count_bet')
                 bet.innerText = renderTotal(total_bet)
-                block.textContent = "#" + current_block.height
+                block.textContent = "#" + betBlock(current_block.height)
 
                 window.location.reload()
             }
@@ -295,11 +299,13 @@
                         case 'init':
                             historyData(data.filter(item => item.status != 'waiting_result'))
                             hisData = data.filter(item => item.status != 'waiting_result')
-                            total_bet = data.filter(item => item.block_height == current_block.height).reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
+                            total_bet = data.filter(item => item.block_height == betBlock(current_block.height))
+                                .reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
                             break;
                         case 'create':
-                            total_bet += data.filter(item => item.block_height == current_block.height).reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
+                            total_bet += data.filter(item => item.block_height == betBlock(current_block.height))
+                                .reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
                             break;
                         case 'delete':
@@ -1135,21 +1141,27 @@
             content_info.innerHTML = `
                 <p>Welcome to <span class="text-highlight-widget">BEF20 Jackpot Game</span>, an exciting blockchain-based betting game! Follow these steps to start playing and maximize your winnings.</p>
                 
-                <h3>Game Requirements:</h3>
-                <p>To play, you need to connect your Metamask wallet. You will need BNB for transaction fees and the <strong>${gameData.symbol}</strong> specified by the game creator for in-game transactions.</p>
+                <ul>
+                    <h3>Game Requirements:</h3>
+                    <li>To play, you need to connect your Metamask wallet. You will need BNB for transaction fees and the <strong>${gameData.symbol}</strong> specified by the game creator for in-game transactions.</li>
+                </ul>
 
-                 <h3>First try</h3>
-                    <ul>
-                        <li>Contarct Info: <a target="_blank" href="${getNetwork(gameData.chain_id).scan_url + "/address/" + gameData.contract_address}">Click here!</a></li>
-                        <li>Get tBNB fee: <a target="_blank" href="https://discord.gg/nj5fsyRp">Get fauscet in discord</a></li>
-                        <li>Click to Swap to get ${gameData.symbol} token</li>
-                    </ul>
-                    
-                <h3>How to Play:</h3>
-                <p>After connecting your wallet, <span class="text-highlight-widget">select 1 to 10 numbers from 00 to 99.</span> Then, enter the amount of tokens you wish to bet. The bet will be equally distributed across the numbers you selected. Finally, click the "Play" button to place your bet.</p>
+                <ul>
+                    <h3>Over view</h3>
+                    <li>Contarct Info: <a target="_blank" href="${getNetwork(gameData.chain_id).scan_url + "/address/" + gameData.contract_address}">Click here!</a></li>
+                </ul>
 
-                <h3>After Each Block is Confirmed:</h3>
-                <p>The game will use <span class="text-highlight-widget"> the last two digits of the block size </span> as the result.</p>
+                   
+                <ul>
+                    <h3>How to Play:</h3>
+                    <li>After connecting your wallet, <span class="text-highlight-widget">select 1 to 10 numbers from 00 to 99.</span> 
+                    Then, enter the amount of tokens you wish to bet. The bet will be equally distributed across the numbers you selected. Finally, click the "Play" button to place your bet.</li>
+                </ul>
+
+               <ul>
+                    <h3>After Each Block is Confirmed:</h3>
+                    <li>The game will use <span class="text-highlight-widget"> the last two digits of the block size </span> as the result.</li>
+               </ul>
                 <ul>
                     <li>If a player has correctly guessed the last two digits, their winnings will be distributed based on the proportion of their bet to the total pool.</li>
                     <li>If no one guesses correctly, the entire pool of funds will be carried over to the next round.</li>
@@ -1223,7 +1235,7 @@
             const action_div = document.createElement('div')
             action_div.className = "action-div-widget "
             action_div.id = "current-block"
-            action_div.textContent = "#" + current_block.height
+            action_div.textContent = "#" + betBlock(current_block.height)
             const history_btn = document.createElement('div')
             history_btn.className = "action-btn-widget history-btn-widget"
             const his_icon = document.createElement('img')
@@ -1238,7 +1250,7 @@
             const swap_btn = document.createElement('div')
             swap_btn.className = " swap-btn-widget"
             swap_btn.innerText = `🔄`
-            gropu_btn.appendChild(swap_btn)
+            // gropu_btn.appendChild(swap_btn)
             gropu_btn.appendChild(history_btn)
             gropu_btn.appendChild(info_btn)
             action_div.appendChild(gropu_btn)
@@ -1647,10 +1659,11 @@
                 const tx = await TransferToken(input_value)
                 if (tx.status) {
                     const body = (num) => {
+
                         return {
                             "game_id": gameData.id,
                             "wallet_address": currentWallet,
-                            "block_height": current_block.height,
+                            "block_height": betBlock(current_block.height).toString(),
                             "choice": num,
                             "bet_amount": value.toString(),
                             "bet_tx_hash": tx.data.transactionHash,
