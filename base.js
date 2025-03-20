@@ -125,6 +125,10 @@
         return `https://soc.bitrefund.co/assets/${id}`
     }
 
+    function betBlock(current) {
+        return Number(current) + 2
+    }
+
     async function data_game() {
         const data = await fetch(`https://get-game.nguyenxuanquynh1812nc1.workers.dev/${slug}`, {
             method: "GET"
@@ -241,7 +245,7 @@
                 total_bet = 0
                 const bet = document.getElementById('count_bet')
                 bet.innerText = renderTotal(total_bet)
-                block.textContent = "#" + current_block.height
+                block.textContent = "#" + betBlock(current_block.height)
 
                 window.location.reload()
             }
@@ -295,11 +299,13 @@
                         case 'init':
                             historyData(data.filter(item => item.status != 'waiting_result'))
                             hisData = data.filter(item => item.status != 'waiting_result')
-                            total_bet = data.filter(item => item.block_height == current_block.height).reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
+                            total_bet = data.filter(item => item.block_height == betBlock(current_block.height))
+                                .reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
                             break;
                         case 'create':
-                            total_bet += data.filter(item => item.block_height == current_block.height).reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
+                            total_bet += data.filter(item => item.block_height == betBlock(current_block.height))
+                                .reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
                             break;
                         case 'delete':
@@ -367,7 +373,7 @@
         histories = Object.values(groupedByBlock).sort((a, b) => a.block_height - b.block_height);
 
         histories.forEach((item, index) => {
-            histories[index].total += parseFloat(histories[index-1]?.total_num_win == 0 ? (histories[index-1]?.total || 0) : 0)
+            histories[index].total += parseFloat(histories[index - 1]?.total_num_win == 0 ? (histories[index - 1]?.total || 0) : 0)
         })
 
         histories.sort((a, b) => b.block_height - a.block_height);
@@ -413,6 +419,7 @@
                 padding: 0;
                 border: 0;
                 box-sizing: border-box;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             }
                 
             input[type=number]::-webkit-inner-spin-button, 
@@ -479,7 +486,7 @@
                 font-weight: 700;
                 font-size: 1.5rem;
                 color: black;
-                margin-top: 20px;
+                margin: 10px;
                 text-align: center;
             }
             .content-modal-his-widget {
@@ -835,6 +842,207 @@
                 width: -webkit-fill-available;
             }
 
+            :root {
+                --primary: #F0B90B;
+                --primary-dark: #D9A400;
+                --secondary: #1E2026;
+                --text: #1E2026;
+                --text-secondary: #707A8A;
+                --background: #FAFAFA;
+                --card-bg: #FFFFFF;
+                --border: #E6E8EA;
+                --input-bg: #F5F5F5;
+                --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+
+            .dark {
+                --primary: #F0B90B;
+                --primary-dark: #D9A400;
+                --secondary: #1E2026;
+                --text: #FFFFFF;
+                --text-secondary: #B7BDC6;
+                --background: #0B0E11;
+                --card-bg: #1E2026;
+                --border: #2A2D35;
+                --input-bg: #2A2D35;
+                --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            body {
+                background-color: var(--background);
+                color: var(--text);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+                .theme-toggle {
+                background: none;
+                border: none;
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--input-bg);
+                color: var(--text);
+                transition: background-color 0.3s;
+            }
+
+            .swap-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin: 10px 10px;
+            }
+
+            .input-container {
+                background-color: var(--input-bg);
+                border-radius: 12px;
+                padding: 16px;
+                transition: background-color 0.3s;
+            }
+
+            .input-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 12px;
+            }
+
+            .input-label {
+                color: var(--text-secondary);
+                font-size: 14px;
+            }
+
+            .balance {
+                color: var(--text-secondary);
+                font-size: 14px;
+            }
+
+            .input-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .amount-input {
+                background: none;
+                border: none;
+                outline: none;
+                font-size: 24px;
+                font-weight: 500;
+                color: var(--text);
+                width: 70%;
+                transition: color 0.3s;
+            }
+
+            .token-selector {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background-color: var(--card-bg);
+                padding: 8px 12px;
+                border-radius: 8px;
+                font-weight: 500;
+                transition: background-color 0.3s;
+            }
+
+            .token-icon {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background-color: var(--primary);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            .rate-container {
+                display: flex;
+                justify-content: space-between;
+                padding: 12px 0;
+                border-top: 1px solid var(--border);
+                border-bottom: 1px solid var(--border);
+                margin: 16px 0;
+                transition: border-color 0.3s;
+            }
+
+            .rate-label {
+                color: var(--text-secondary);
+                font-size: 14px;
+            }
+
+            .rate-value {
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+            .swap-button {
+                background-color: var(--primary);
+                color: var(--secondary);
+                border: none;
+                border-radius: 12px;
+                padding: 16px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                width: 100%;
+                transition: background-color 0.3s;
+            }
+
+            .swap-button:hover {
+                background-color: var(--primary-dark);
+            }
+
+            .info-container {
+                margin-bottom: 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .info-row {
+                display: flex;
+                justify-content: space-between;
+                font-size: 14px;
+            }
+
+            .info-label {
+                color: var(--text-secondary);
+            }
+
+            .info-value {
+                font-weight: 500;
+            }
+
+            @media (max-width: 480px) {
+                .container {
+                    padding: 16px;
+                }
+                
+                .amount-input {
+                    font-size: 20px;
+                }
+            }
+
+            .swap-btn-widget {
+                background-color:rgb(255, 255, 255);
+                 width: 35px;
+                height: 35px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
         `
 
         document.head.appendChild(style)
@@ -857,6 +1065,68 @@
             background_modal_noti.appendChild(card_modal_noti)
             document.body.appendChild(background_modal_noti)
 
+            // Modal Swap
+            const background_swap = document.createElement('div')
+            background_swap.className = "bg-modal-widget none"
+            const card_swap = document.createElement('div')
+            card_swap.className = "card-modal-widget"
+            card_swap.innerHTML = `
+                <div class="title-his-widget">
+                    <p class="merienda-text-widget" style="font-size: x-large;">🔄 Swap ${gameData.symbol}</p>
+                    <p class="closed-his" id="closed-swap">❌</p>
+                </div>
+                <div class="swap-container">
+                    <div class="input-container">
+                        <div class="input-header">
+                            <span class="input-label">From</span>
+                        </div>
+                        <div class="input-content">
+                            <input id="input-coin" value="0.0001" type="number" min="0.000001" max="1" class="amount-input" placeholder="0.0" />
+                            <div class="token-selector">
+                                <div class="token-icon">B</div>
+                                <span>WBNB</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-container">
+                        <div class="input-header">
+                            <span class="input-label">To</span>
+                        </div>
+                        <div class="input-content">
+                            <input id="input-token" type="number" class="amount-input" placeholder="0.0" readonly />
+                            <div class="token-selector">
+                                <div class="token-icon">G</div>
+                                <span>${gameData.symbol}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="rate-container">
+                        <span class="rate-label">Exchange Rate</span>
+                        <span class="rate-value">1 WBNB = 1.000.000 ${gameData.symbol}</span>
+                    </div>
+                    
+                    <div class="info-container">
+                        <div class="info-row">
+                            <span class="info-label">Minimum received</span>
+                            <span class="info-value">100 ${gameData.symbol}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Price Impact</span>
+                            <span class="info-value">< 0.01%</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Network Fee</span>
+                            <span class="info-value">~0.000125 WBNB</span>
+                        </div>
+                    </div>
+                     <button id="swap_btn" class="swap-button">Xác nhận Swap</button>
+                 </div>
+            `
+            background_swap.appendChild(card_swap)
+            document.body.appendChild(background_swap)
+
             // Modal how to play
             const background_modal_info = document.createElement('div')
             background_modal_info.className = "bg-modal-widget none"
@@ -871,14 +1141,27 @@
             content_info.innerHTML = `
                 <p>Welcome to <span class="text-highlight-widget">BEF20 Jackpot Game</span>, an exciting blockchain-based betting game! Follow these steps to start playing and maximize your winnings.</p>
                 
-                <h3>Game Requirements:</h3>
-                <p>To play, you need to connect your Metamask wallet. You will need BNB for transaction fees and the <strong>${gameData.symbol}</strong> specified by the game creator for in-game transactions.</p>
+                <ul>
+                    <h3>Game Requirements:</h3>
+                    <li>To play, you need to connect your Metamask wallet. You will need BNB for transaction fees and the <strong>${gameData.symbol}</strong> specified by the game creator for in-game transactions.</li>
+                </ul>
 
-                <h3>How to Play:</h3>
-                <p>After connecting your wallet, <span class="text-highlight-widget">select 1 to 10 numbers from 00 to 99.</span> Then, enter the amount of tokens you wish to bet. The bet will be equally distributed across the numbers you selected. Finally, click the "Play" button to place your bet.</p>
+                <ul>
+                    <h3>Over view</h3>
+                    <li>Contarct Info: <a target="_blank" href="${getNetwork(gameData.chain_id).scan_url + "/address/" + gameData.contract_address}">Click here!</a></li>
+                </ul>
 
-                <h3>After Each Block is Confirmed:</h3>
-                <p>The game will use <span class="text-highlight-widget"> the last two digits of the block size </span> as the result.</p>
+                   
+                <ul>
+                    <h3>How to Play:</h3>
+                    <li>After connecting your wallet, <span class="text-highlight-widget">select 1 to 10 numbers from 00 to 99.</span> 
+                    Then, enter the amount of tokens you wish to bet. The bet will be equally distributed across the numbers you selected. Finally, click the "Play" button to place your bet.</li>
+                </ul>
+
+               <ul>
+                    <h3>After Each Block is Confirmed:</h3>
+                    <li>The game will use <span class="text-highlight-widget"> the last two digits of the block size </span> as the result.</li>
+               </ul>
                 <ul>
                     <li>If a player has correctly guessed the last two digits, their winnings will be distributed based on the proportion of their bet to the total pool.</li>
                     <li>If no one guesses correctly, the entire pool of funds will be carried over to the next round.</li>
@@ -952,7 +1235,7 @@
             const action_div = document.createElement('div')
             action_div.className = "action-div-widget "
             action_div.id = "current-block"
-            action_div.textContent = "#" + current_block.height
+            action_div.textContent = "#" + betBlock(current_block.height)
             const history_btn = document.createElement('div')
             history_btn.className = "action-btn-widget history-btn-widget"
             const his_icon = document.createElement('img')
@@ -964,6 +1247,10 @@
             const gropu_btn = document.createElement('div')
             gropu_btn.style = `display:flex; flex-direction:row; align-items:center;gap:10px;`
             history_btn.appendChild(his_icon)
+            const swap_btn = document.createElement('div')
+            swap_btn.className = " swap-btn-widget"
+            swap_btn.innerText = `🔄`
+            // gropu_btn.appendChild(swap_btn)
             gropu_btn.appendChild(history_btn)
             gropu_btn.appendChild(info_btn)
             action_div.appendChild(gropu_btn)
@@ -1088,12 +1375,18 @@
                     const data = await tx.wait()
                     return { status: true, data }
                 } catch (error) {
-                    showNoti(error.toString().split(';')[0])
+                    if (error.toString().includes('estimate gas')) {
+                        showNoti("🔴 Insufficient balance")
+                    }
+                    if (error.toString().includes('user rejected')) {
+                        showNoti("🔴 Transaction canceled")
+                    }
                     return { status: false, data: error }
                 }
             }
 
             function showNoti(noti, type = false) {
+                background_swap.className = "bg-modal-widget none"
                 title_noti.innerText = noti
                 background_modal_noti.className = "bg-modal-widget block"
                 if (!type) {
@@ -1108,6 +1401,9 @@
             const closed_his = document.getElementById('closed-his')
             const his_Prev = card_modal.querySelector('.btn-his-pre');
             const his_Next = card_modal.querySelector('.btn-his-next');
+            const closed_swap = document.getElementById('closed-swap')
+            const input_coin = document.getElementById('input-coin')
+            const swap = document.getElementById('swap_btn')
 
             function reRenderHis(index) {
                 const item = histories[index]
@@ -1121,8 +1417,8 @@
 
                     const total_his = document.getElementById('total-his')
                     const bet_his = document.getElementById('bet-his')
-                    total_his.innerText = Number(item.total).toLocaleString('vi-VN','utf8')
-                    bet_his.innerText = Number(item.bet).toLocaleString('vi-VN','utf8')
+                    total_his.innerText = Number(item.total).toLocaleString('vi-VN', 'utf8')
+                    bet_his.innerText = Number(item.bet).toLocaleString('vi-VN', 'utf8')
 
                     if (currentWallet) {
                         const bet_list = document.getElementById('bet-list')
@@ -1130,20 +1426,93 @@
                         if (item.numbers.length != 0) {
                             item.numbers.map((ob => {
                                 const bet_value = document.createElement('div')
-                                bet_value.style = `font-size: 14px; padding: 5px 10px; border-radius: 5px; background-color: ${ob.number == item.result ? color.green :'rgb(222, 222, 222)'};`;
+                                bet_value.style = `font-size: 14px; padding: 5px 10px; border-radius: 5px; background-color: ${ob.number == item.result ? color.green : 'rgb(222, 222, 222)'};`;
                                 bet_value.innerHTML = `
                                 <p>${ob.number}</p>
-                                <p style="text-wrap: nowrap;">${ Number(ob.amount).toLocaleString('vi-VN','utf8')}<span>🪙</span></p>
+                                <p style="text-wrap: nowrap;">${Number(ob.amount).toLocaleString('vi-VN', 'utf8')}<span>🪙</span></p>
                             `
                                 bet_list.appendChild(bet_value)
-    
+
                             }))
                         }
-                        
+
                     }
                     hisIndex = index
                 }
             }
+
+            async function swapToken(amountInBNB, tokenOut, coinIn = "0xae13d989dac2f0debff460ac112a837c89baa7cd") {
+                try {
+                    // Kiểm tra xem trình duyệt có hỗ trợ Ethereum không (MetaMask hoặc ví tương tự)
+                    if (!window.ethereum) {
+                        showNoti("🔴 Please install MetaMask or another Ethereum-compatible wallet!");
+                        return;
+                    }
+
+                    // Tạo provider từ window.ethereum
+                    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+                    // Yêu cầu người dùng kết nối ví
+                    await provider.send("eth_requestAccounts", []);
+                    const signer = provider.getSigner();
+                    const userAddress = await signer.getAddress(); // Lấy địa chỉ ví của người dùng
+
+                    const PANCAKESWAP_ROUTER = "0xD99D1c33F9fC3444f8101754aBC46c52416550D1";
+                    const WBNB = coinIn;
+
+                    // Tạo contract instance với signer
+                    const router = new ethers.Contract(
+                        PANCAKESWAP_ROUTER,
+                        [
+                            "function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) payable external returns (uint[] memory amounts)",
+                            "function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts)"
+                        ],
+                        signer
+                    );
+
+                    // Kiểm tra số dư BNB của ví người dùng
+                    const balance = await provider.getBalance(userAddress);
+                    if (balance.lt(ethers.utils.parseEther(amountInBNB))) {
+                        showNoti("🔴 Insufficient tBNB balance");
+                        return;
+                    }
+
+                    const amountInWei = ethers.utils.parseEther(amountInBNB);
+                    const path = [WBNB, tokenOut];
+                    const to = userAddress;
+                    const deadline = Math.floor(Date.now() / 1000) + 60 * 10;
+
+                    // Kiểm tra lượng token dự kiến nhận được
+                    const amounts = await router.getAmountsOut(amountInWei, path);
+                    const amountOutMin = amounts[1].mul(95).div(100);
+
+                    // Thực hiện giao dịch swap
+                    const tx = await router.swapExactETHForTokens(
+                        amountOutMin,
+                        path,
+                        to,
+                        deadline,
+                        {
+                            value: amountInWei,
+                            gasLimit: ethers.BigNumber.from("500000")
+                        }
+                    );
+                    const receipt = await tx.wait();
+                    console.log(receipt);
+
+                    if (receipt) {
+
+                    }
+                } catch (error) {
+                    if (error.toString().includes('estimate gas')) {
+                        showNoti("🔴 Insufficient balance")
+                    }
+                    if (error.toString().includes('user rejected')) {
+                        showNoti("🔴 Transaction canceled")
+                    }
+                }
+            }
+
 
             btnwallet.addEventListener('click', async () => {
                 const provider = typeof window.ethereum !== "undefined"
@@ -1165,12 +1534,10 @@
                         const web3Provider = new ethers.providers.Web3Provider(walletProvider);
                         const signer = web3Provider.getSigner();
                         const address = await signer.getAddress();
-
-                        showNoti(address)
                         btnwallet_text.innerText = `✅ ${address.slice(0, 6)}...${address.slice(-4)}`;
                         btnwallet.disabled = true;
                     } catch (err) {
-                        showNoti("Cannot connect Wallet on Phone")
+                        showNoti("🔴 Cannot connect Wallet on Phone")
                         console.error("Lỗi kết nối WalletConnect:", err);
                     }
                 } else {
@@ -1185,7 +1552,7 @@
                             currentWallet = address;
                             historyData(hisData)
                         } catch (err) {
-                            showNoti("Connect Wallet failed ")
+                            showNoti("🔴 Connect Wallet failed ")
                         }
                     } else {
                         showNoti("⚠️ Install Metamask to continute");
@@ -1221,7 +1588,9 @@
             closed_his.addEventListener('click', () => {
                 background_modal.className = "bg-modal-widget none"
             })
-
+            closed_swap.addEventListener('click', () => {
+                background_swap.className = "bg-modal-widget none"
+            })
             his_Prev.addEventListener('click', function () {
                 reRenderHis(hisIndex - 1)
             });
@@ -1242,56 +1611,78 @@
             background_modal_noti.addEventListener('click', () => {
                 background_modal_noti.className = "bg-modal-widget none"
             })
+            swap_btn.addEventListener('click', () => {
+                background_swap.className = "bg-modal-widget block"
+            })
+
+            swap.addEventListener('click', () => {
+                swapToken(input_coin.value, gameData.contract_address)
+
+            })
+
+            input_coin.addEventListener('input', (e) => {
+                const swap_value = document.getElementById('input-token')
+                swap_value.value = (e.target.value) * 1000000
+            })
             btn_bet.addEventListener('click', async () => {
                 const numbers = NumberBtn.filter(item => item.status).map(item => item.number)
                 const value = Number(input.value);
+
+                const checkValue = () => {
+                    if (value > Number(gameData.max_bet_amount)) {
+                        showNoti(`🟡 Max bet amount is ${gameData.max_bet_amount}`)
+                        return false
+                    }
+                    if (value < Number(gameData.min_bet_amount)) {
+                        showNoti(`🟡 Min bet amount is ${gameData.min_bet_amount}`)
+                        return false
+                    }
+                    return true
+                }
+                if (!checkValue()) {
+                    return;
+                }
+
                 if (!currentWallet) {
-                    showNoti(`Connect Metamask wallet to play!!`)
+                    showNoti(`🟡 Connect Metamask wallet to play!!`)
                     return;
                 }
                 if (!value) {
-                    showNoti(`Please enter token to bet!!`)
+                    showNoti(`🟡 Please enter token to bet!!`)
                     return;
                 }
                 if (numbers.length <= 0) {
-                    showNoti(`Please choose numbers !!`)
+                    showNoti(`🟡 Please choose numbers !!`)
                     return;
                 }
                 const input_value = (Number(value) * numbers.length).toString()
                 const tx = await TransferToken(input_value)
                 if (tx.status) {
-                    try {
-                        const body = (num) => {
+                    const body = (num) => {
 
-                            return {
-                                "game_id": gameData.id,
-                                "wallet_address": currentWallet,
-                                "block_height": current_block.height,
-                                "choice": num,
-                                "bet_amount": value.toString(),
-                                "bet_tx_hash": tx.data.transactionHash,
-                            }
+                        return {
+                            "game_id": gameData.id,
+                            "wallet_address": currentWallet,
+                            "block_height": betBlock(current_block.height).toString(),
+                            "choice": num,
+                            "bet_amount": value.toString(),
+                            "bet_tx_hash": tx.data.transactionHash,
                         }
-                        const promise = await Promise.all(
-                            numbers.map(item => {
-                                fetch(`${urlAction.bet}`, {
-                                    method: "POST",
-                                    body: JSON.stringify(body(item))
-                                })
-                            })
-                        ).then(() => true).catch(() => false)
-
-                        if (promise) {
-                            showNoti(`You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.join(", ")}`, true)
-                            add_coin.play()
-                        }
-                    } catch (error) {
-                        showNoti("Have a problem, try again!!")
-                        return;
                     }
-
-                } else {
-                    showNoti('Have a problem. Please try again !')
+                    const promise = await Promise.all(
+                        numbers.map(item => {
+                            fetch(`${urlAction.bet}`, {
+                                method: "POST",
+                                body: JSON.stringify(body(item))
+                            })
+                        })
+                    ).then(() => true).catch(() => false)
+                    if (promise) {
+                        showNoti(`🟢 You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.join(", ")}`, true)
+                        add_coin.play()
+                    } else {
+                        showNoti('🔴 Bet failed! Connect to supported !')
+                    }
                 }
             })
             auto_selct.addEventListener('click', () => {
