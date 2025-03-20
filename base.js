@@ -130,7 +130,7 @@
     }
 
     async function data_game() {
-        const data = await fetch(`https://get-game.nguyenxuanquynh1812nc1.workers.dev/${slug}`, {
+        const data = await fetch(`https://get-game.nguyenxuanquynh1812nc1.workers.dev/${slug}?type=jackpot`, {
             method: "GET"
         })
             .then((data) => data.json())
