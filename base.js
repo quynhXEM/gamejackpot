@@ -126,7 +126,7 @@
     }
 
     function betBlock(current) {
-        return Number(current) + 2
+        return Number(current) + 1
     }
 
     async function data_game() {
