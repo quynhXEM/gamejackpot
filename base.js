@@ -286,7 +286,9 @@
                                     },
                                     fields: [
                                         '*',
-                                    ]
+                                    ],
+                                    sort: ['-date_created'],
+                                    limit: 100000
                                 }
                             })
                         )
@@ -1667,24 +1669,24 @@
                 const tx = await TransferToken(input_value)
                 if (tx.status) {
                     const body = (num) => {
+                        return num.map(item => {
+                            return {
+                                "game_id": gameData.id,
+                                "wallet_address": currentWallet,
+                                "block_height": betBlock(current_block.height).toString(),
+                                "choice": item,
+                                "bet_amount": value.toString(),
+                                "bet_tx_hash": tx.data.transactionHash,
+                            }
 
-                        return {
-                            "game_id": gameData.id,
-                            "wallet_address": currentWallet,
-                            "block_height": betBlock(current_block.height).toString(),
-                            "choice": num,
-                            "bet_amount": value.toString(),
-                            "bet_tx_hash": tx.data.transactionHash,
-                        }
-                    }
-                    const promise = await Promise.all(
-                        numbers.map(item => {
-                            fetch(`${urlAction.bet}`, {
-                                method: "POST",
-                                body: JSON.stringify(body(item))
-                            })
                         })
-                    ).then(() => true).catch(() => false)
+                    }
+                    const promise = await fetch(`${urlAction.bet}`, {
+                        method: "POST",
+                        body: JSON.stringify(body(numbers))
+                    })
+                        .then(() => true).catch(() => false)
+                        
                     if (promise) {
                         showNoti(`🟢 You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.join(", ")}`, true)
                         add_coin.play()
