@@ -1135,39 +1135,47 @@
             card_modal_info.className = "card-modal-widget"
             const title_info = document.createElement('p')
             title_info.className = "tilte-modal-widget"
-            title_info.innerText = "How to play ?"
+            title_info.innerText = "Thông tin && Hướng dẫn"
             const content_info = document.createElement('div')
             content_info.className = "content-modal-widget"
             content_info.innerHTML = `
-                <p>Welcome to <span class="text-highlight-widget">BEF20 Jackpot Game</span>, an exciting blockchain-based betting game! Follow these steps to start playing and maximize your winnings.</p>
-                
+                <p>Chào mừng bạn đến với <span class="text-highlight-widget">BEF20 Jackpot Game</span> — một trò chơi cá cược dựa trên blockchain đầy kịch tính! Hãy làm theo các bước sau để bắt đầu chơi và tối đa hóa cơ hội chiến thắng của bạn.</p>
+
                 <ul>
-                    <h3>Game Requirements:</h3>
-                    <li>To play, you need to connect your Metamask wallet. You will need BNB for transaction fees and the <strong>${gameData.symbol}</strong> specified by the game creator for in-game transactions.</li>
+                    <h3>Yêu cầu để chơi:</h3>
+                    <li>Để tham gia, bạn cần kết nối ví Metamask. Bạn sẽ cần BNB để trả phí giao dịch và <strong>${gameData.symbol}</strong> (do người tạo trò chơi quy định) để thực hiện các giao dịch trong game.</li>
                 </ul>
 
                 <ul>
-                    <h3>Over view</h3>
-                    <li>Contarct Info: <a target="_blank" href="${getNetwork(gameData.chain_id).scan_url + "/address/" + gameData.contract_address}">Click here!</a></li>
+                    <h3>Tổng quan</h3>
+                    <li>Thông tin hợp đồng: <a target="_blank" href="${getNetwork(gameData.chain_id).scan_url + "/address/" + gameData.contract_address}">Bấm vào đây!</a></li>
+                    <li>Thông tin khối hiện tại: <a target="_blank" href="https://www.blockchain.com/explorer/blocks/btc/${current_block.height}">Bấm vào đây!</a></li>
                 </ul>
 
-                   
                 <ul>
-                    <h3>How to Play:</h3>
-                    <li>After connecting your wallet, <span class="text-highlight-widget">select 1 to 10 numbers from 00 to 99.</span> 
-                    Then, enter the amount of tokens you wish to bet. The bet will be equally distributed across the numbers you selected. Finally, click the "Play" button to place your bet.</li>
+                    <h3>Quy tắc cược</h3>
+                    <li>Cược tối thiểu: ${Number(gameData?.min_bet_amount).toFixed(2)} ${gameData.symbol}</li>
+                    <li>Cược tối đa: ${Number(gameData?.max_bet_amount).toFixed(2)} ${gameData.symbol}</li>
+                    <li>Bước cược: ${Number(gameData?.bet_step_amount).toFixed(2)} ${gameData.symbol}</li>
                 </ul>
 
-               <ul>
-                    <h3>After Each Block is Confirmed:</h3>
-                    <li>The game will use <span class="text-highlight-widget"> the last two digits of the block size </span> as the result.</li>
-               </ul>
                 <ul>
-                    <li>If a player has correctly guessed the last two digits, their winnings will be distributed based on the proportion of their bet to the total pool.</li>
-                    <li>If no one guesses correctly, the entire pool of funds will be carried over to the next round.</li>
+                    <h3>Hướng dẫn chơi:</h3>
+                    <li>Sau khi kết nối ví, <span class="text-highlight-widget">hãy chọn từ 1 đến 10 con số trong khoảng từ 00 đến 99.</span> Sau đó, nhập số lượng token bạn muốn cược. Số tiền cược sẽ được chia đều cho các số bạn đã chọn. Cuối cùng, nhấn nút "Chơi" để đặt cược.</li>
                 </ul>
-                
-                <p>Enjoy the game and good luck!</p>
+
+                <ul>
+                    <h3>Sau mỗi khối được xác nhận:</h3>
+                    <li>Trò chơi sẽ sử dụng <span class="text-highlight-widget">hai chữ số cuối của kích thước khối</span> để làm kết quả.</li>
+                </ul>
+
+                <ul>
+                    <li>Nếu người chơi đoán đúng hai chữ số cuối, phần thưởng sẽ được phân phối dựa trên tỷ lệ cược của họ so với tổng số cược.</li>
+                    <li>Nếu không ai đoán đúng, toàn bộ số tiền trong pool sẽ được chuyển sang vòng tiếp theo.</li>
+                </ul>
+
+                <p>Chúc bạn chơi vui vẻ và may mắn!</p>
+
             `
             card_modal_info.appendChild(title_info)
             card_modal_info.appendChild(content_info)
