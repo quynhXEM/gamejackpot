@@ -25,87 +25,153 @@
     const network = [
         {
             "name": "Ethereum",
+            "symbol": "ETH",
+            "native_currency": "Ether",
             "chain_id": 1,
             "api_explorer": "https://api.etherscan.io/v2/api",
-            "api_url": "https://mainnet.infura.io/v3"
+            "api_url": "https://mainnet.infura.io/v3",
+            "scan_url": "https://etherscan.io",
+            "rpc_url": "https://rpc.builder0x69.io"
         },
         {
             "name": "Binance Smart Chain",
+            "symbol": "BNB",
+            "native_currency": "BNB",
             "chain_id": 56,
             "api_url": "https://bsc-testnet.infura.io/v3",
-            "api_explorer": "https://api.bscscan.com/api"
+            "api_explorer": "https://api.bscscan.com/api",
+            "scan_url": "https://bscscan.com",
+            "rpc_url": "https://bsc-dataseed.binance.org"
         },
         {
             "name": "Polygon",
+            "symbol": "MATIC",
+            "native_currency": "MATIC",
             "chain_id": 137,
             "api_explorer": "https://api.polygonscan.com/api",
-            "api_url": "https://polygon-mainnet.infura.io/v3"
+            "api_url": "https://polygon-mainnet.infura.io/v3",
+            "scan_url": "https://polygonscan.com",
+            "rpc_url": "https://polygon-rpc.com"
         },
         {
             "name": "Avalanche (Coming Soon)",
+            "symbol": "AVAX",
+            "native_currency": "AVAX",
             "chain_id": 43114,
             "api_explorer": "https://snowtrace.io",
-            "api_url": "https://avalanche-mainnet.infura.io/v3"
+            "api_url": "https://avalanche-mainnet.infura.io/v3",
+            "scan_url": "https://snowtrace.io",
+            "rpc_url": "https://api.avax.network/ext/bc/C/rpc"
         },
         {
             "name": "Arbitrum One",
+            "symbol": "ETH",
+            "native_currency": "Ether",
             "chain_id": 42161,
             "api_explorer": "https://api.arbiscan.io/api",
-            "api_url": "https://arbitrum-mainnet.infura.io/v3"
+            "api_url": "https://arbitrum-mainnet.infura.io/v3",
+            "scan_url": "https://arbiscan.io",
+            "rpc_url": "https://arb1.arbitrum.io/rpc"
         },
         {
             "name": "Optimism Ethescan",
+            "symbol": "ETH",
+            "native_currency": "Ether",
             "chain_id": 10,
             "api_explorer": "https://api-optimistic.etherscan.io/api",
-            "api_url": "https://optimism-mainnet.infura.io/v3"
+            "api_url": "https://optimism-mainnet.infura.io/v3",
+            "scan_url": "https://optimistic.etherscan.io",
+            "rpc_url": "https://mainnet.optimism.io"
         },
         {
             "name": "Celo",
+            "symbol": "CELO",
+            "native_currency": "CELO",
             "chain_id": 42220,
             "api_explorer": "https://api.celoscan.io/api",
-            "api_url": "https://celo-mainnet.infura.io/v3"
+            "api_url": "https://celo-mainnet.infura.io/v3",
+            "scan_url": "https://celoscan.io",
+            "rpc_url": "https://forno.celo.org"
         },
         {
             "name": "Ethereum Sepolia Testnet",
+            "symbol": "ETH",
+            "native_currency": "SepoliaETH",
             "chain_id": 11155111,
             "api_explorer": "https://api-sepolia.etherscan.io/api",
-            "api_url": "https://sepolia.infura.io/v3"
+            "api_url": "https://sepolia.infura.io/v3",
+            "scan_url": "https://sepolia.etherscan.io",
+            "rpc_url": "https://rpc.sepolia.org"
         },
         {
             "name": "BSC Testnet",
+            "symbol": "tBNB",
+            "native_currency": "Testnet BNB",
             "chain_id": 97,
             "api_explorer": "https://api-testnet.bscscan.com/api",
-            "api_url": "https://bsc-testnet.infura.io/v3"
+            "api_url": "https://bsc-testnet.infura.io/v3",
+            "scan_url": "https://testnet.bscscan.com",
+            "rpc_url": "https://data-seed-prebsc-1-s1.binance.org:8545"
         },
         {
             "name": "Avalanche Fuji Testnet (Coming Soon)",
+            "symbol": "AVAX",
+            "native_currency": "Testnet AVAX",
             "chain_id": 43113,
             "api_explorer": "https://testnet.snowtrace.io",
-            "api_url": "https://avalanche-fuji.infura.io/v3"
+            "api_url": "https://avalanche-fuji.infura.io/v3",
+            "scan_url": "https://testnet.snowtrace.io",
+            "rpc_url": "https://api.avax-test.network/ext/bc/C/rpc"
         },
         {
             "name": "Fantom",
+            "symbol": "FTM",
+            "native_currency": "FTM",
             "chain_id": 250,
             "api_explorer": "https://api.ftmscan.com/api",
-            "api_url": "https://rpc.ftm.tools"
+            "api_url": "https://rpc.ftm.tools",
+            "scan_url": "https://ftmscan.com",
+            "rpc_url": "https://rpcapi.fantom.network"
         },
         {
             "name": "Cronos",
+            "symbol": "CRO",
+            "native_currency": "CRO",
             "chain_id": 25,
             "api_explorer": "https://api.cronoscan.com/api",
-            "api_url": "https://evm.cronos.org"
+            "api_url": "https://evm.cronos.org",
+            "scan_url": "https://cronoscan.com",
+            "rpc_url": "https://evm.cronos.org"
         },
         {
             "name": "Moonbeam",
+            "symbol": "GLMR",
+            "native_currency": "GLMR",
             "chain_id": 1284,
             "api_explorer": "https://api-moonbeam.moonscan.io/api",
-            "api_url": "https://1rpc.io/glmr"
+            "api_url": "https://1rpc.io/glmr",
+            "scan_url": "https://moonscan.io",
+            "rpc_url": "https://rpc.api.moonbeam.network"
         },
         {
             "name": "Moonbase Alpha Testnet",
+            "symbol": "DEV",
+            "native_currency": "DEV",
             "chain_id": 1287,
             "api_explorer": "https://api-moonbase.moonscan.io/api",
-            "api_url": "https://rpc.testnet.moonbeam.network"
+            "api_url": "https://rpc.testnet.moonbeam.network",
+            "scan_url": "https://moonbase.moonscan.io",
+            "rpc_url": "https://rpc.api.moonbase.moonbeam.network"
+        },
+        {
+            "name": "Bitcoin",
+            "symbol": "BTC",
+            "native_currency": "Bitcoin",
+            "chain_id": 0,
+            "api_explorer": "https://blockchain.info",
+            "api_url": "https://api.blockcypher.com",
+            "scan_url": "https://btcscan.org",
+            "rpc_url": "https://bitcoin.drpc.org"
         }
     ]
 
@@ -1529,46 +1595,48 @@
                     ? new ethers.providers.Web3Provider(window.ethereum)
                     : null;
 
-                function isMobileDevice() {
-                    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-                }
 
-                if (isMobileDevice()) {
+
+                if (provider) {
+                    const expectedChainId = '0x' + Number(gameData.chain_id).toString(16)
                     try {
-                        const WalletConnectProvider = window.WalletConnectProvider;
-                        const walletProvider = new WalletConnectProvider({
-                            bridge: "https://bridge.walletconnect.org",
+                        const network = await provider.getNetwork();
+                        if (network.chainId !== Number(gameData.chain_id)) {
+                            await window.ethereum.request({
+                                method: 'wallet_switchEthereumChain',
+                                params: [{ chainId: expectedChainId }],
+                            });
+                        }
+                    } catch (error) {
+                        const chain = getNetwork(gameData?.chain_id)
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [{
+                                chainId: expectedChainId,
+                                chainName: chain.name,
+                                nativeCurrency: { name: chain.native_currency, symbol: chain.symbol, decimals: 18 },
+                                rpcUrls: [chain.rpc_url],
+                                blockExplorerUrls: [chain.scan_url],
+                            }],
                         });
+                    }
 
-                        await walletProvider.enable();
-                        const web3Provider = new ethers.providers.Web3Provider(walletProvider);
-                        const signer = web3Provider.getSigner();
-                        const address = await signer.getAddress();
-                        btnwallet_text.innerText = `✅ ${address.slice(0, 6)}...${address.slice(-4)}`;
+                    try {
+                        await window.ethereum.request({ method: "eth_requestAccounts" });
+                        singer_wallet = provider.getSigner();
+                        const address = await singer_wallet.getAddress();
+                        btnwallet_text.innerText = `${address.slice(0, 6)}...${address.slice(-4)}`;
                         btnwallet.disabled = true;
+                        currentWallet = address;
+                        historyData(hisData)
                     } catch (err) {
-                        showNoti("🔴 Cannot connect Wallet on Phone")
-                        console.error("Lỗi kết nối WalletConnect:", err);
+                        showNoti("🔴 Connect Wallet failed ")
                     }
                 } else {
-                    // PC
-                    if (provider) {
-                        try {
-                            await window.ethereum.request({ method: "eth_requestAccounts" });
-                            singer_wallet = provider.getSigner();
-                            const address = await singer_wallet.getAddress();
-                            btnwallet_text.innerText = `${address.slice(0, 6)}...${address.slice(-4)}`;
-                            btnwallet.disabled = true;
-                            currentWallet = address;
-                            historyData(hisData)
-                        } catch (err) {
-                            showNoti("🔴 Connect Wallet failed ")
-                        }
-                    } else {
-                        showNoti("⚠️ Install Metamask to continute");
-                        const button = document.createElement("button");
-                        button.innerText = "🦊 Install now";
-                        button.style.cssText = `
+                    showNoti("⚠️ Install Metamask to continute");
+                    const button = document.createElement("button");
+                    button.innerText = "🦊 Install now";
+                    button.style.cssText = `
                         width: 90%; 
                         margin-top:200px;
                         padding:10px 15px;
@@ -1578,23 +1646,23 @@
                         border:none;
                         border-radius:5px;
                         cursor:pointer;`;
-                        document.body.style.cssText = `
+                    document.body.style.cssText = `
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         background: #090a0c;
                     `
 
-                        button.addEventListener("click", () => {
-                            window.location.replace("https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn")
-                        })
-                        document.body.innerHTML = ''
-                        document.body.appendChild(button);
-                    }
-
+                    button.addEventListener("click", () => {
+                        window.location.replace("https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn")
+                    })
+                    document.body.innerHTML = ''
+                    document.body.appendChild(button);
                 }
 
-            });
+            }
+
+            );
             closed_his.addEventListener('click', () => {
                 background_modal.className = "bg-modal-widget none"
             })
