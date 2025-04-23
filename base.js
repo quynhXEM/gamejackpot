@@ -25,87 +25,153 @@
     const network = [
         {
             "name": "Ethereum",
+            "symbol": "ETH",
+            "native_currency": "Ether",
             "chain_id": 1,
             "api_explorer": "https://api.etherscan.io/v2/api",
-            "api_url": "https://mainnet.infura.io/v3"
+            "api_url": "https://mainnet.infura.io/v3",
+            "scan_url": "https://etherscan.io",
+            "rpc_url": "https://rpc.builder0x69.io"
         },
         {
             "name": "Binance Smart Chain",
+            "symbol": "BNB",
+            "native_currency": "BNB",
             "chain_id": 56,
             "api_url": "https://bsc-testnet.infura.io/v3",
-            "api_explorer": "https://api.bscscan.com/api"
+            "api_explorer": "https://api.bscscan.com/api",
+            "scan_url": "https://bscscan.com",
+            "rpc_url": "https://bsc-dataseed.binance.org"
         },
         {
             "name": "Polygon",
+            "symbol": "MATIC",
+            "native_currency": "MATIC",
             "chain_id": 137,
             "api_explorer": "https://api.polygonscan.com/api",
-            "api_url": "https://polygon-mainnet.infura.io/v3"
+            "api_url": "https://polygon-mainnet.infura.io/v3",
+            "scan_url": "https://polygonscan.com",
+            "rpc_url": "https://polygon-rpc.com"
         },
         {
             "name": "Avalanche (Coming Soon)",
+            "symbol": "AVAX",
+            "native_currency": "AVAX",
             "chain_id": 43114,
             "api_explorer": "https://snowtrace.io",
-            "api_url": "https://avalanche-mainnet.infura.io/v3"
+            "api_url": "https://avalanche-mainnet.infura.io/v3",
+            "scan_url": "https://snowtrace.io",
+            "rpc_url": "https://api.avax.network/ext/bc/C/rpc"
         },
         {
             "name": "Arbitrum One",
+            "symbol": "ETH",
+            "native_currency": "Ether",
             "chain_id": 42161,
             "api_explorer": "https://api.arbiscan.io/api",
-            "api_url": "https://arbitrum-mainnet.infura.io/v3"
+            "api_url": "https://arbitrum-mainnet.infura.io/v3",
+            "scan_url": "https://arbiscan.io",
+            "rpc_url": "https://arb1.arbitrum.io/rpc"
         },
         {
             "name": "Optimism Ethescan",
+            "symbol": "ETH",
+            "native_currency": "Ether",
             "chain_id": 10,
             "api_explorer": "https://api-optimistic.etherscan.io/api",
-            "api_url": "https://optimism-mainnet.infura.io/v3"
+            "api_url": "https://optimism-mainnet.infura.io/v3",
+            "scan_url": "https://optimistic.etherscan.io",
+            "rpc_url": "https://mainnet.optimism.io"
         },
         {
             "name": "Celo",
+            "symbol": "CELO",
+            "native_currency": "CELO",
             "chain_id": 42220,
             "api_explorer": "https://api.celoscan.io/api",
-            "api_url": "https://celo-mainnet.infura.io/v3"
+            "api_url": "https://celo-mainnet.infura.io/v3",
+            "scan_url": "https://celoscan.io",
+            "rpc_url": "https://forno.celo.org"
         },
         {
             "name": "Ethereum Sepolia Testnet",
+            "symbol": "ETH",
+            "native_currency": "SepoliaETH",
             "chain_id": 11155111,
             "api_explorer": "https://api-sepolia.etherscan.io/api",
-            "api_url": "https://sepolia.infura.io/v3"
+            "api_url": "https://sepolia.infura.io/v3",
+            "scan_url": "https://sepolia.etherscan.io",
+            "rpc_url": "https://rpc.sepolia.org"
         },
         {
-            "name": "BSC Testnet",
+            "name": "Binance Smart Chain Testnet",
+            "symbol": "tBNB",
+            "native_currency": "Testnet BNB",
             "chain_id": 97,
             "api_explorer": "https://api-testnet.bscscan.com/api",
-            "api_url": "https://bsc-testnet.infura.io/v3"
+            "api_url": "https://bsc-testnet.infura.io/v3",
+            "scan_url": "https://testnet.bscscan.com",
+            "rpc_url": "https://data-seed-prebsc-1-s1.binance.org:8545"
         },
         {
             "name": "Avalanche Fuji Testnet (Coming Soon)",
+            "symbol": "AVAX",
+            "native_currency": "Testnet AVAX",
             "chain_id": 43113,
             "api_explorer": "https://testnet.snowtrace.io",
-            "api_url": "https://avalanche-fuji.infura.io/v3"
+            "api_url": "https://avalanche-fuji.infura.io/v3",
+            "scan_url": "https://testnet.snowtrace.io",
+            "rpc_url": "https://api.avax-test.network/ext/bc/C/rpc"
         },
         {
             "name": "Fantom",
+            "symbol": "FTM",
+            "native_currency": "FTM",
             "chain_id": 250,
             "api_explorer": "https://api.ftmscan.com/api",
-            "api_url": "https://rpc.ftm.tools"
+            "api_url": "https://rpc.ftm.tools",
+            "scan_url": "https://ftmscan.com",
+            "rpc_url": "https://rpcapi.fantom.network"
         },
         {
             "name": "Cronos",
+            "symbol": "CRO",
+            "native_currency": "CRO",
             "chain_id": 25,
             "api_explorer": "https://api.cronoscan.com/api",
-            "api_url": "https://evm.cronos.org"
+            "api_url": "https://evm.cronos.org",
+            "scan_url": "https://cronoscan.com",
+            "rpc_url": "https://evm.cronos.org"
         },
         {
             "name": "Moonbeam",
+            "symbol": "GLMR",
+            "native_currency": "GLMR",
             "chain_id": 1284,
             "api_explorer": "https://api-moonbeam.moonscan.io/api",
-            "api_url": "https://1rpc.io/glmr"
+            "api_url": "https://1rpc.io/glmr",
+            "scan_url": "https://moonscan.io",
+            "rpc_url": "https://rpc.api.moonbeam.network"
         },
         {
             "name": "Moonbase Alpha Testnet",
+            "symbol": "DEV",
+            "native_currency": "DEV",
             "chain_id": 1287,
             "api_explorer": "https://api-moonbase.moonscan.io/api",
-            "api_url": "https://rpc.testnet.moonbeam.network"
+            "api_url": "https://rpc.testnet.moonbeam.network",
+            "scan_url": "https://moonbase.moonscan.io",
+            "rpc_url": "https://rpc.api.moonbase.moonbeam.network"
+        },
+        {
+            "name": "Bitcoin",
+            "symbol": "BTC",
+            "native_currency": "Bitcoin",
+            "chain_id": 0,
+            "api_explorer": "https://blockchain.info",
+            "api_url": "https://api.blockcypher.com",
+            "scan_url": "https://btcscan.org",
+            "rpc_url": "https://bitcoin.drpc.org"
         }
     ]
 
@@ -120,6 +186,7 @@
     let currentWallet;
     let total_bet = 0;
     let current_block;
+    let new_bet = [];
     // Hàm xử lý 
     function Image(id) {
         return `https://soc.bitrefund.co/assets/${id}`
@@ -142,7 +209,7 @@
             })
 
 
-        const providerUrl = getNetwork(data.chain_id).api_url + "/379175b6c6c3436eab583d759cdeea5e"
+        const providerUrl = getNetwork(data.chain_id).rpc_url
 
         function sendRpcRequest(method, params) {
             return new Promise((resolve, reject) => {
@@ -210,7 +277,27 @@
     }
 
     function renderTotal(total_bet) {
-        return new Intl.NumberFormat('de-DE').format(total_bet) + " " + gameData.symbol
+        return "JACKPOT: " + new Intl.NumberFormat('de-DE').format(total_bet) + " " + gameData.symbol
+    }
+
+    function renderNewBet() {
+        const marqueeText = document.getElementById('new_bet');
+        marqueeText.style = "text-wrap: nowrap;";
+        const list_bet = [];
+        new_bet.forEach(item => {
+            if (list_bet[item.choice] == undefined) {
+                list_bet[item.choice] = {
+                    choice: item.choice,
+                    bet_amount: 0
+                }
+            } 
+            list_bet[item.choice].bet_amount += Number(item.bet_amount)
+        })
+        console.log(Object.entries(list_bet));
+        
+        const text = Object.entries(list_bet).map(([_, value]) => value).map(item => item)?.map(item => " 🟢 Số " + item.choice + ": " + item.bet_amount + gameData.symbol + "       ")?.join(" - ")
+        marqueeText.textContent = text;
+
     }
 
     // Connect server
@@ -304,11 +391,15 @@
                             total_bet = data.filter(item => item.block_height == betBlock(current_block.height))
                                 .reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
+                            new_bet = data.filter(item => item.block_height == betBlock(current_block.height) && item.choice != -1)
+                            renderNewBet()
                             break;
                         case 'create':
                             total_bet += data.filter(item => item.block_height == betBlock(current_block.height))
                                 .reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
+                            new_bet.push(...data)
+                            renderNewBet()
                             break;
                         case 'delete':
                             break;
@@ -341,44 +432,89 @@
     }
 
     // History
-    function historyData(data) {
+    function historyData(bets) {
         const groupedByBlock = {};
-        data.forEach(item => {
-            if (!groupedByBlock[item.block_height]) {
-                groupedByBlock[item.block_height] = {
-                    block_height: item.block_height,
-                    total: 0,
-                    bet: 0,
-                    total_num_win: 0,
-                    numbers: [],
-                    result: item.result
-                };
-            }
-            // Tính tổng bet_amount cho mỗi block
-            groupedByBlock[item.block_height].total += parseFloat(item.bet_amount);
-            groupedByBlock[item.block_height].total_num_win += parseFloat(item.result == item.choice ? item.bet_amount : 0)
-            // Kiểm tra nếu wallet address trùng với input
-            if (item.wallet_address === currentWallet) {
-                groupedByBlock[item.block_height].bet += parseFloat(item.bet_amount);
 
-                // Tổng hợp danh sách số đã cược
-                const existingNumber = groupedByBlock[item.block_height].numbers.find(n => n.number === item.choice);
-                if (existingNumber) {
-                    existingNumber.amount += parseFloat(item.bet_amount);
-                } else {
-                    groupedByBlock[item.block_height].numbers.push({ number: item.choice, amount: parseFloat(item.bet_amount) });
+        // Gom nhóm theo block
+        for (const bet of bets) {
+            const block = bet.block_height;
+            if (!groupedByBlock[block]) {
+                groupedByBlock[block] = [];
+            }
+            groupedByBlock[block].push(bet);
+        }
+
+        // Xử lý từng block
+        const result = Object.entries(groupedByBlock)
+            .sort((a, b) => Number(b[0]) - Number(a[0])) // Sắp xếp giảm dần theo block
+            .map(([block, bets]) => {
+                const totalBets = bets.reduce((sum, b) => b.choice != -1 ? sum + parseFloat(b.bet_amount || 0) : sum, 0);
+                const totalWins = bets.reduce((sum, b) => sum + parseFloat(b.winning_amount || 0), 0);
+                const pot = bets.find(item => item.choice == -1)?.bet_amount || 0
+                const wins = bets.filter(b => b.status === "win").length;
+                const winRate = bets.length > 0 ? wins / bets.length : 0;
+
+                const resultValue = bets[0]?.result || null;
+
+                // Mô tả theo choice cho ví được lọc
+                const walletChoices = bets.filter(b => b.wallet_address === currentWallet);
+                const choiceMap = {};
+                for (const b of walletChoices) {
+                    const choice = b.choice;
+                    if (!choiceMap[choice]) {
+                        choiceMap[choice] = { amount: 0, win_amount: 0 };
+                    }
+                    choiceMap[choice].amount += parseFloat(b.bet_amount || 0);
+                    choiceMap[choice].win_amount += parseFloat(b.winning_amount || 0);
                 }
-            }
-        });
 
-        // Chuyển đổi kết quả sang mảng và sắp xếp theo block_height giảm dần
-        histories = Object.values(groupedByBlock).sort((a, b) => a.block_height - b.block_height);
+                const description = Object.entries(choiceMap).map(([number, data]) => ({
+                    number,
+                    amount: data.amount,
+                    win_amount: data.win_amount
+                }));
 
-        histories.forEach((item, index) => {
-            histories[index].total += parseFloat(histories[index - 1]?.total_num_win == 0 ? (histories[index - 1]?.total || 0) : 0)
-        })
+                // Ví thắng cược
+                const walletsWin = bets
+                    .filter(b => b.status === "win" && b.wallet_address !== gameData.master_wallet_address)
+                    .map(b => ({
+                        wallet: b.wallet_address,
+                        bet_amount: parseFloat(b.bet_amount || 0),
+                        win_amount: parseFloat(b.winning_amount || 0),
+                        choice: b.choice
+                    }));
 
-        histories.sort((a, b) => b.block_height - a.block_height);
+                const countChoices = {};
+                for (const b of bets) {
+                    if (b.choice != -1) {
+                        const c = b.choice;
+                        countChoices[c] = (countChoices[c] || 0) + 1;
+                    }
+
+                }
+
+                const maxCount = Math.max(...Object.values(countChoices))
+                const numbers = Object.entries(countChoices)
+                    .filter(([_, count]) => count === maxCount)
+                    .map(([choice]) => choice)
+                    .slice(0, 5)
+
+
+                return {
+                    block,
+                    win_rate: winRate,
+                    total_bet: totalBets,
+                    pot,
+                    win_amount: totalWins,
+                    result: resultValue,
+                    description,
+                    numbers,
+                    wallets_win: walletsWin
+                };
+            });
+
+        histories = result
+        return result;
     }
 
     // Load JS
@@ -437,6 +573,10 @@
                 margin: 0px;
             }
 
+            .new_bet {
+            color: white; font-family: "Merienda", serif; font-weight: 700; font-size: 1rem; text-align: center; padding: 10px; border-radius: 5px;
+            }
+
             .btn-wallet-widget {
                 background: #FFC30F;
                 font-size: 12px;
@@ -482,6 +622,7 @@
                 align-items: center;
                 flex-direction: column;
                 border-radius: 10px;
+                padding: 5px;
             }
             .tilte-modal-widget {
                 font-family: "Merienda", serif;
@@ -582,13 +723,18 @@
                 width: 30%;
                 text-align: center;
                 background-color: white;
-                color: ${color.orange};
+                color: ${color.red};
                 font-family: "Merienda", serif;
                 font-weight: 700;
                 margin: 0px;
                 border: 2px solid #00CCFE;
                 text-wrap: none;
                 transaction: 
+            }
+
+            .new-bet-widget {
+                width: 100%;
+                background-color: rgba(37, 51, 119, 0.5);
             }
 
             .num-ctn-widget {
@@ -691,7 +837,7 @@
 
             @media (min-width: 768px) {
                 .card-modal-widget {
-                    margin: 10% 20%;
+                    margin: 5% 20%;
                 }
                 .ctn-jackpot-widget {
                     font-size: 1.75rem;
@@ -1068,66 +1214,66 @@
             document.body.appendChild(background_modal_noti)
 
             // Modal Swap
-            const background_swap = document.createElement('div')
-            background_swap.className = "bg-modal-widget none"
-            const card_swap = document.createElement('div')
-            card_swap.className = "card-modal-widget"
-            card_swap.innerHTML = `
-                <div class="title-his-widget">
-                    <p class="merienda-text-widget" style="font-size: x-large;">🔄 Swap ${gameData.symbol}</p>
-                    <p class="closed-his" id="closed-swap">❌</p>
-                </div>
-                <div class="swap-container">
-                    <div class="input-container">
-                        <div class="input-header">
-                            <span class="input-label">From</span>
-                        </div>
-                        <div class="input-content">
-                            <input id="input-coin" value="0.0001" type="number" min="0.000001" max="1" class="amount-input" placeholder="0.0" />
-                            <div class="token-selector">
-                                <div class="token-icon">B</div>
-                                <span>WBNB</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="input-container">
-                        <div class="input-header">
-                            <span class="input-label">To</span>
-                        </div>
-                        <div class="input-content">
-                            <input id="input-token" type="number" class="amount-input" placeholder="0.0" readonly />
-                            <div class="token-selector">
-                                <div class="token-icon">G</div>
-                                <span>${gameData.symbol}</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="rate-container">
-                        <span class="rate-label">Exchange Rate</span>
-                        <span class="rate-value">1 WBNB = 1.000.000 ${gameData.symbol}</span>
-                    </div>
-                    
-                    <div class="info-container">
-                        <div class="info-row">
-                            <span class="info-label">Minimum received</span>
-                            <span class="info-value">100 ${gameData.symbol}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Price Impact</span>
-                            <span class="info-value">< 0.01%</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Network Fee</span>
-                            <span class="info-value">~0.000125 WBNB</span>
-                        </div>
-                    </div>
-                     <button id="swap_btn" class="swap-button">Xác nhận Swap</button>
-                 </div>
-            `
-            background_swap.appendChild(card_swap)
-            document.body.appendChild(background_swap)
+            // const background_swap = document.createElement('div')
+            // background_swap.className = "bg-modal-widget none"
+            // const card_swap = document.createElement('div')
+            // card_swap.className = "card-modal-widget"
+            // card_swap.innerHTML = `
+            //     <div class="title-his-widget">
+            //         <p class="merienda-text-widget" style="font-size: x-large;">🔄 Swap ${gameData.symbol}</p>
+            //         <p class="closed-his" id="closed-swap">❌</p>
+            //     </div>
+            //     <div class="swap-container">
+            //         <div class="input-container">
+            //             <div class="input-header">
+            //                 <span class="input-label">From</span>
+            //             </div>
+            //             <div class="input-content">
+            //                 <input id="input-coin" value="0.0001" type="number" min="0.000001" max="1" class="amount-input" placeholder="0.0" />
+            //                 <div class="token-selector">
+            //                     <div class="token-icon">B</div>
+            //                     <span>WBNB</span>
+            //                 </div>
+            //             </div>
+            //         </div>
+
+            //         <div class="input-container">
+            //             <div class="input-header">
+            //                 <span class="input-label">To</span>
+            //             </div>
+            //             <div class="input-content">
+            //                 <input id="input-token" type="number" class="amount-input" placeholder="0.0" readonly />
+            //                 <div class="token-selector">
+            //                     <div class="token-icon">G</div>
+            //                     <span>${gameData.symbol}</span>
+            //                 </div>
+            //             </div>
+            //         </div>
+
+            //         <div class="rate-container">
+            //             <span class="rate-label">Exchange Rate</span>
+            //             <span class="rate-value">1 WBNB = 1.000.000 ${gameData.symbol}</span>
+            //         </div>
+
+            //         <div class="info-container">
+            //             <div class="info-row">
+            //                 <span class="info-label">Minimum received</span>
+            //                 <span class="info-value">100 ${gameData.symbol}</span>
+            //             </div>
+            //             <div class="info-row">
+            //                 <span class="info-label">Price Impact</span>
+            //                 <span class="info-value">< 0.01%</span>
+            //             </div>
+            //             <div class="info-row">
+            //                 <span class="info-label">Network Fee</span>
+            //                 <span class="info-value">~0.000125 WBNB</span>
+            //             </div>
+            //         </div>
+            //          <button id="swap_btn" class="swap-button">Xác nhận Swap</button>
+            //      </div>
+            // `
+            // background_swap.appendChild(card_swap)
+            // document.body.appendChild(background_swap)
 
             // Modal how to play
             const background_modal_info = document.createElement('div')
@@ -1150,7 +1296,7 @@
 
                 <ul>
                     <h3>Tổng quan</h3>
-                    <li>Thông tin hợp đồng: <a target="_blank" href="${getNetwork(gameData.chain_id).scan_url + "/address/" + gameData.contract_address}">Bấm vào đây!</a></li>
+                    <li>Thông tin hợp đồng: <a target="_blank" href="${getNetwork(gameData.chain_id).scan_url + "/token/" + gameData.contract_address}">Bấm vào đây!</a></li>
                     <li>Thông tin khối hiện tại: <a target="_blank" href="https://www.blockchain.com/explorer/blocks/btc/${current_block.height}">Bấm vào đây!</a></li>
                 </ul>
 
@@ -1191,38 +1337,63 @@
             const card_modal = document.createElement('div')
             card_modal.className = "card-modal-widget"
             card_modal.innerHTML = `
-                <div class="title-his-widget">
-                    <p class="merienda-text-widget" style="font-size: x-large;">🧭 History</p>
-                    <p class="closed-his" id="closed-his">❌</p>
+                <div class="popup-header" style="display: flex; width: 100%; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <div class="header-left" style="display: flex; align-items: center; gap: 10px;">
+                    <div class="history-icon" style="background-color: #FFC107; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h2 style="font-size: 22px; font-weight: 600; color: #333; margin: 0;">Lịch sử </h2>
                 </div>
-                <div class="content-his-widget">
-                    <p class="merienda-text-widget">Block</p>
-                    <h1 id="block-show-his" class="merienda-text-widget">#${current_block.height}</h1>
-                    <div id="resault-content" class="resault-content-widget bg-49">
-                        <p id="resault-show-his" class="merienda-text-widget">--</p>
-                    </div>
-                    <div class="bet-his-widget">
-                        <div class="bet-box-his box-49">
-                            <p>Total</p>
-                            <p id="total-his">---</p>
-                        </div>
-                        <div class="bet-box-his box-50">
-                            <p>Your Bet</p>
-                            <p id="bet-his">---</p>
-                        </div>
-                    </div>
-                    <p style="margin-top: 20px;">Your choice</p>
-                    <div id="bet-list" class="bet-list-his">
-                        Connect wallet to show !
+                <p class="closed-his" id="closed-his">❌</p>
+                </div>
+
+                <div class="block-info" style="text-align: center; margin-bottom: 15px;">
+                <p style="font-size: 16px; color: #666; margin-bottom: 5px;">Block</p>
+                <h1 id="block-view" style="font-size: 28px; font-weight: 700; color: #333; margin-bottom: 5px;">${current_block.height}</h1>
+                <a id="block-detail-view" href="https://www.blockchain.com/explorer/blocks/btc/${current_block.height} class="blockchain-link" target="_blank" style="display: inline-block; color: #3498db; text-decoration: none; font-size: 14px; margin-top: 5px;">
+                    Xem thông tin <i class="fas fa-external-link-alt"></i>
+                </a>
+                </div>
+
+                <div id="result-container" class="result-circle" style="width: 80px; height: 80px; background-color:rgb(180, 180, 180); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 20px auto; color: white; font-size: 24px; font-weight: bold;">
+                <span id="result-view">--</span>
+                </div>
+
+                <div class="stats-summary" style="display: flex; width: 100%; justify-content: space-between; margin: 20px 0; background-color: #f8f9fa; border-radius: 10px; padding: 15px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <span style="font-size: 12px; color: #666; margin-bottom: 5px;">Tỉ Lệ Thắng</span>
+                    <span id="win-rate-view" style="font-size: 16px; font-weight: 600; color: #333;">---</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <span style="font-size: 12px; color: #666; margin-bottom: 5px;">Tổng Cược</span>
+                    <span id="total-bet-view" style="font-size: 16px; font-weight: 600; color: #333;">---</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <span style="font-size: 12px; color: #666; margin-bottom: 5px;">Tổng Hũ</span>
+                    <span id="win-amount-view" style="font-size: 16px; font-weight: 600; color: #333;">---</span>
+                </div>
+                </div>
+
+                <div class="teams-container" style="display: flex; flex: 1; width: 100%; gap: 10px; margin-bottom: 20px;">
+                <div class="team team-left" style="flex: 1; border-radius: 10px; padding: 15px; background-color: #FFEBEE;">
+                    <h3 style="text-align: center; margin-bottom: 10px; font-size: 18px; color: #333;">Top Number</h3>
+                    <div id="number-list-view" class="team-stats" style="gap: 5px; margin-bottom: 15px; display: flex; flex-direction: row;">
+                        
                     </div>
                 </div>
-                <div class="footer-his-widget ">
-                    <button class="btn-action-his btn-his-pre">
-                        <p> ◀️ Previous </p>
-                    </button>
-                    <button class="btn-action-his btn-his-next">
-                        <p> Next ▶️</p>
-                    </button>
+
+                </div>
+                <div class="navigation" style="display: flex; width: 100%; justify-content: space-between;">
+                <button class="btn-action-his btn-his-next nav-btn next-btn" style="background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 5px; padding: 8px 12px 8px 15px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 14px; color: #555; transition: all 0.2s;">
+                    Tiếp theo <i class="fas fa-chevron-right"></i>
+                </button>    
+                <button class="btn-action-his nav-btn prev-btn btn-his-pre" style="background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 5px; padding: 8px 15px 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 14px; color: #555; transition: all 0.2s;">
+                    <i class="fas fa-chevron-left"></i> Trước đó
+                </button>
+                </div>
+                <div class="winning-wallets">
+                <h4 style="font-size: 14px; margin-bottom: 8px; color: #555;">Ví thắng</h4>
+                <ul id="win-wallets-view" style="list-style: none; padding: 0; margin: 0;"></ul>
                 </div>
             `
             background_modal.appendChild(card_modal)
@@ -1266,6 +1437,15 @@
             action_div.appendChild(gropu_btn)
             container.appendChild(action_div)
 
+            // New Bet
+            const ctn_new_bet = document.createElement('div')
+            ctn_new_bet.className = "new-bet-widget"
+            const marqueeText = document.createElement('div');
+            marqueeText.id = "new_bet"
+            marqueeText.className = 'marquee new_bet';
+
+            ctn_new_bet.appendChild(marqueeText);
+            container.appendChild(ctn_new_bet)
             // Pig Image
             const ctn_pig = document.createElement('div')
             ctn_pig.className = "ctn-pig-widget"
@@ -1386,17 +1566,17 @@
                     return { status: true, data }
                 } catch (error) {
                     if (error.toString().includes('estimate gas')) {
-                        showNoti("🔴 Insufficient balance")
+                        showNoti("🔴 Số dư không đủ để thanh toán hoặc trả phí")
                     }
                     if (error.toString().includes('user rejected')) {
-                        showNoti("🔴 Transaction canceled")
+                        showNoti("🔴 Giao dịch đã bị hủy")
                     }
                     return { status: false, data: error }
                 }
             }
 
             function showNoti(noti, type = false) {
-                background_swap.className = "bg-modal-widget none"
+                // background_swap.className = "bg-modal-widget none"
                 title_noti.innerText = noti
                 background_modal_noti.className = "bg-modal-widget block"
                 if (!type) {
@@ -1411,117 +1591,131 @@
             const closed_his = document.getElementById('closed-his')
             const his_Prev = card_modal.querySelector('.btn-his-pre');
             const his_Next = card_modal.querySelector('.btn-his-next');
-            const closed_swap = document.getElementById('closed-swap')
-            const input_coin = document.getElementById('input-coin')
-            const swap = document.getElementById('swap_btn')
+            // const closed_swap = document.getElementById('closed-swap')
+            // const input_coin = document.getElementById('input-coin')
+            // const swap = document.getElementById('swap_btn')
 
             function reRenderHis(index) {
                 const item = histories[index]
+
                 if (item) {
-                    const resault_content = document.getElementById('resault-content')
-                    resault_content.className = item.total_num_win > 0 ? "resault-content-widget bg-50" : "resault-content-widget bg-49"
-                    const block_show_his = document.getElementById('block-show-his')
-                    block_show_his.innerText = "#" + item.block_height
-                    const resault_show_his = document.getElementById('resault-show-his')
-                    resault_show_his.innerText = item.result
 
-                    const total_his = document.getElementById('total-his')
-                    const bet_his = document.getElementById('bet-his')
-                    total_his.innerText = Number(item.total).toLocaleString('vi-VN', 'utf8')
-                    bet_his.innerText = Number(item.bet).toLocaleString('vi-VN', 'utf8')
+                    const block_view = document.getElementById("block-view")
+                    const result_view = document.getElementById("result-view")
+                    const win_rate_view = document.getElementById("win-rate-view")
+                    const total_bet_view = document.getElementById("total-bet-view")
+                    const win_amount_view = document.getElementById("win-amount-view")
+                    const win_wallets_view = document.getElementById("win-wallets-view")
+                    const block_detail_view = document.getElementById("block-detail-view")
+                    const result_container = document.getElementById("result-container")
 
-                    if (currentWallet) {
-                        const bet_list = document.getElementById('bet-list')
-                        bet_list.innerHTML = ""
-                        if (item.numbers.length != 0) {
-                            item.numbers.map((ob => {
-                                const bet_value = document.createElement('div')
-                                bet_value.style = `font-size: 14px; padding: 5px 10px; border-radius: 5px; background-color: ${ob.number == item.result ? color.green : 'rgb(222, 222, 222)'};`;
-                                bet_value.innerHTML = `
-                                <p>${ob.number}</p>
-                                <p style="text-wrap: nowrap;">${Number(ob.amount).toLocaleString('vi-VN', 'utf8')}<span>🪙</span></p>
-                            `
-                                bet_list.appendChild(bet_value)
-
-                            }))
-                        }
-
+                    block_detail_view.href = `https://www.blockchain.com/explorer/blocks/btc/${item.block}`
+                    if (item?.numbers) {
+                        const number_list_view = document.getElementById("number-list-view")
+                        number_list_view.style = "justify-content: center; gap: 5px; display: flex; flex-direction: row;"
+                        number_list_view.innerHTML = ""
+                        item?.numbers.map(num => {
+                            const bet_num = document.createElement('div')
+                            bet_num.style = `font-size: 20px; padding: 5px; font-weight: 700; color: ${num == item.result ? color.green : ""}`
+                            bet_num.innerText = num
+                            number_list_view.appendChild(bet_num)
+                        })
                     }
+
+                    result_container.style.backgroundColor = item.result < 50 ? color.red : color.green;
+                    block_view.innerText = item.block;
+                    result_view.innerText = item.result;
+                    win_rate_view.innerText = item?.win_rate + "%";
+                    total_bet_view.innerText = item?.total_bet + gameData.symbol;
+                    win_amount_view.innerText = item?.pot + gameData.symbol;
+
+                    let win_wallets_html = '';
+                    item?.wallets_win?.forEach(win => {
+                        win_wallets_html = win_wallets_html + `
+                        <li style="font-size: 13px; margin-bottom: 5px; display: flex; justify-content: space-between; gap: 10px;">
+                            ${win.wallet.substring(0, 7)}...${win.wallet.substring(35)}
+                            <span style="color:rgb(214, 59, 59); font-weight: 600;">-${win.bet_amount} ${gameData.symbol}</span>
+                            <span style="color: #4CAF50; font-weight: 600;">+${win.win_amount} ${gameData.symbol}</span>
+                            <span><a target="_blank" href="${getNetwork(gameData.chain_id).scan_url}/tx/${win?.tx_hash}">Chi tiết</a></span>
+                        </li>
+                        `
+                    })
+                    win_wallets_view.innerHTML = win_wallets_html;
+
                     hisIndex = index
                 }
             }
 
-            async function swapToken(amountInBNB, tokenOut, coinIn = "0xae13d989dac2f0debff460ac112a837c89baa7cd") {
-                try {
-                    // Kiểm tra xem trình duyệt có hỗ trợ Ethereum không (MetaMask hoặc ví tương tự)
-                    if (!window.ethereum) {
-                        showNoti("🔴 Please install MetaMask or another Ethereum-compatible wallet!");
-                        return;
-                    }
+            // async function swapToken(amountInBNB, tokenOut, coinIn = "0xae13d989dac2f0debff460ac112a837c89baa7cd") {
+            //     try {
+            //         // Kiểm tra xem trình duyệt có hỗ trợ Ethereum không (MetaMask hoặc ví tương tự)
+            //         if (!window.ethereum) {
+            //             showNoti("🔴 Please install MetaMask or another Ethereum-compatible wallet!");
+            //             return;
+            //         }
 
-                    // Tạo provider từ window.ethereum
-                    const provider = new ethers.providers.Web3Provider(window.ethereum);
+            //         // Tạo provider từ window.ethereum
+            //         const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-                    // Yêu cầu người dùng kết nối ví
-                    await provider.send("eth_requestAccounts", []);
-                    const signer = provider.getSigner();
-                    const userAddress = await signer.getAddress(); // Lấy địa chỉ ví của người dùng
+            //         // Yêu cầu người dùng kết nối ví
+            //         await provider.send("eth_requestAccounts", []);
+            //         const signer = provider.getSigner();
+            //         const userAddress = await signer.getAddress(); // Lấy địa chỉ ví của người dùng
 
-                    const PANCAKESWAP_ROUTER = "0xD99D1c33F9fC3444f8101754aBC46c52416550D1";
-                    const WBNB = coinIn;
+            //         const PANCAKESWAP_ROUTER = "0xD99D1c33F9fC3444f8101754aBC46c52416550D1";
+            //         const WBNB = coinIn;
 
-                    // Tạo contract instance với signer
-                    const router = new ethers.Contract(
-                        PANCAKESWAP_ROUTER,
-                        [
-                            "function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) payable external returns (uint[] memory amounts)",
-                            "function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts)"
-                        ],
-                        signer
-                    );
+            //         // Tạo contract instance với signer
+            //         const router = new ethers.Contract(
+            //             PANCAKESWAP_ROUTER,
+            //             [
+            //                 "function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) payable external returns (uint[] memory amounts)",
+            //                 "function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts)"
+            //             ],
+            //             signer
+            //         );
 
-                    // Kiểm tra số dư BNB của ví người dùng
-                    const balance = await provider.getBalance(userAddress);
-                    if (balance.lt(ethers.utils.parseEther(amountInBNB))) {
-                        showNoti("🔴 Insufficient tBNB balance");
-                        return;
-                    }
+            //         // Kiểm tra số dư BNB của ví người dùng
+            //         const balance = await provider.getBalance(userAddress);
+            //         if (balance.lt(ethers.utils.parseEther(amountInBNB))) {
+            //             showNoti("🔴 Insufficient tBNB balance");
+            //             return;
+            //         }
 
-                    const amountInWei = ethers.utils.parseEther(amountInBNB);
-                    const path = [WBNB, tokenOut];
-                    const to = userAddress;
-                    const deadline = Math.floor(Date.now() / 1000) + 60 * 10;
+            //         const amountInWei = ethers.utils.parseEther(amountInBNB);
+            //         const path = [WBNB, tokenOut];
+            //         const to = userAddress;
+            //         const deadline = Math.floor(Date.now() / 1000) + 60 * 10;
 
-                    // Kiểm tra lượng token dự kiến nhận được
-                    const amounts = await router.getAmountsOut(amountInWei, path);
-                    const amountOutMin = amounts[1].mul(95).div(100);
+            //         // Kiểm tra lượng token dự kiến nhận được
+            //         const amounts = await router.getAmountsOut(amountInWei, path);
+            //         const amountOutMin = amounts[1].mul(95).div(100);
 
-                    // Thực hiện giao dịch swap
-                    const tx = await router.swapExactETHForTokens(
-                        amountOutMin,
-                        path,
-                        to,
-                        deadline,
-                        {
-                            value: amountInWei,
-                            gasLimit: ethers.BigNumber.from("500000")
-                        }
-                    );
-                    const receipt = await tx.wait();
-                    console.log(receipt);
+            //         // Thực hiện giao dịch swap
+            //         const tx = await router.swapExactETHForTokens(
+            //             amountOutMin,
+            //             path,
+            //             to,
+            //             deadline,
+            //             {
+            //                 value: amountInWei,
+            //                 gasLimit: ethers.BigNumber.from("500000")
+            //             }
+            //         );
+            //         const receipt = await tx.wait();
 
-                    if (receipt) {
+            //         if (receipt) {
 
-                    }
-                } catch (error) {
-                    if (error.toString().includes('estimate gas')) {
-                        showNoti("🔴 Insufficient balance")
-                    }
-                    if (error.toString().includes('user rejected')) {
-                        showNoti("🔴 Transaction canceled")
-                    }
-                }
-            }
+            //         }
+            //     } catch (error) {
+            //         if (error.toString().includes('estimate gas')) {
+            //             showNoti("🔴 Insufficient balance")
+            //         }
+            //         if (error.toString().includes('user rejected')) {
+            //             showNoti("🔴 Transaction canceled")
+            //         }
+            //     }
+            // }
 
 
             btnwallet.addEventListener('click', async () => {
@@ -1529,46 +1723,48 @@
                     ? new ethers.providers.Web3Provider(window.ethereum)
                     : null;
 
-                function isMobileDevice() {
-                    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-                }
 
-                if (isMobileDevice()) {
+
+                if (provider) {
+                    const expectedChainId = '0x' + Number(gameData.chain_id).toString(16)
                     try {
-                        const WalletConnectProvider = window.WalletConnectProvider;
-                        const walletProvider = new WalletConnectProvider({
-                            bridge: "https://bridge.walletconnect.org",
+                        const network = await provider.getNetwork();
+                        if (network.chainId !== Number(gameData.chain_id)) {
+                            await window.ethereum.request({
+                                method: 'wallet_switchEthereumChain',
+                                params: [{ chainId: expectedChainId }],
+                            });
+                        }
+                    } catch (error) {
+                        const chain = getNetwork(gameData?.chain_id)
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [{
+                                chainId: expectedChainId,
+                                chainName: chain.name,
+                                nativeCurrency: { name: chain.native_currency, symbol: chain.symbol, decimals: 18 },
+                                rpcUrls: [chain.rpc_url],
+                                blockExplorerUrls: [chain.scan_url],
+                            }],
                         });
+                    }
 
-                        await walletProvider.enable();
-                        const web3Provider = new ethers.providers.Web3Provider(walletProvider);
-                        const signer = web3Provider.getSigner();
-                        const address = await signer.getAddress();
-                        btnwallet_text.innerText = `✅ ${address.slice(0, 6)}...${address.slice(-4)}`;
+                    try {
+                        await window.ethereum.request({ method: "eth_requestAccounts" });
+                        singer_wallet = provider.getSigner();
+                        const address = await singer_wallet.getAddress();
+                        btnwallet_text.innerText = `${address.slice(0, 6)}...${address.slice(-4)}`;
                         btnwallet.disabled = true;
+                        currentWallet = address;
+                        historyData(hisData)
                     } catch (err) {
-                        showNoti("🔴 Cannot connect Wallet on Phone")
-                        console.error("Lỗi kết nối WalletConnect:", err);
+                        showNoti("🔴 Kết nối ví thất bại ")
                     }
                 } else {
-                    // PC
-                    if (provider) {
-                        try {
-                            await window.ethereum.request({ method: "eth_requestAccounts" });
-                            singer_wallet = provider.getSigner();
-                            const address = await singer_wallet.getAddress();
-                            btnwallet_text.innerText = `${address.slice(0, 6)}...${address.slice(-4)}`;
-                            btnwallet.disabled = true;
-                            currentWallet = address;
-                            historyData(hisData)
-                        } catch (err) {
-                            showNoti("🔴 Connect Wallet failed ")
-                        }
-                    } else {
-                        showNoti("⚠️ Install Metamask to continute");
-                        const button = document.createElement("button");
-                        button.innerText = "🦊 Install now";
-                        button.style.cssText = `
+                    showNoti("⚠️ Tải xuống Metamask để tham gia trò chơi này");
+                    const button = document.createElement("button");
+                    button.innerText = "🦊 Install now";
+                    button.style.cssText = `
                         width: 90%; 
                         margin-top:200px;
                         padding:10px 15px;
@@ -1578,35 +1774,35 @@
                         border:none;
                         border-radius:5px;
                         cursor:pointer;`;
-                        document.body.style.cssText = `
+                    document.body.style.cssText = `
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         background: #090a0c;
                     `
 
-                        button.addEventListener("click", () => {
-                            window.location.replace("https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn")
-                        })
-                        document.body.innerHTML = ''
-                        document.body.appendChild(button);
-                    }
-
+                    button.addEventListener("click", () => {
+                        window.location.replace("https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn")
+                    })
+                    document.body.innerHTML = ''
+                    document.body.appendChild(button);
                 }
 
-            });
+            }
+
+            );
             closed_his.addEventListener('click', () => {
                 background_modal.className = "bg-modal-widget none"
             })
-            closed_swap.addEventListener('click', () => {
-                background_swap.className = "bg-modal-widget none"
-            })
+            // closed_swap.addEventListener('click', () => {
+            //     background_swap.className = "bg-modal-widget none"
+            // })
             his_Prev.addEventListener('click', function () {
-                reRenderHis(hisIndex - 1)
+                reRenderHis(hisIndex + 1)
             });
 
             his_Next.addEventListener('click', function () {
-                reRenderHis(hisIndex + 1)
+                reRenderHis(hisIndex - 1)
             });
 
             history_btn.addEventListener('click', () => {
@@ -1621,30 +1817,30 @@
             background_modal_noti.addEventListener('click', () => {
                 background_modal_noti.className = "bg-modal-widget none"
             })
-            swap_btn.addEventListener('click', () => {
-                background_swap.className = "bg-modal-widget block"
-            })
+            // swap_btn.addEventListener('click', () => {
+            //     background_swap.className = "bg-modal-widget block"
+            // })
 
-            swap.addEventListener('click', () => {
-                swapToken(input_coin.value, gameData.contract_address)
+            // swap.addEventListener('click', () => {
+            //     swapToken(input_coin.value, gameData.contract_address)
 
-            })
+            // })
 
-            input_coin.addEventListener('input', (e) => {
-                const swap_value = document.getElementById('input-token')
-                swap_value.value = (e.target.value) * 1000000
-            })
+            // input_coin.addEventListener('input', (e) => {
+            //     const swap_value = document.getElementById('input-token')
+            //     swap_value.value = (e.target.value) * 1000000
+            // })
             btn_bet.addEventListener('click', async () => {
                 const numbers = NumberBtn.filter(item => item.status).map(item => item.number)
                 const value = Number(input.value);
 
                 const checkValue = () => {
                     if (value > Number(gameData.max_bet_amount)) {
-                        showNoti(`🟡 Max bet amount is ${gameData.max_bet_amount}`)
+                        showNoti(`🟡 Cược tối đa ${gameData.max_bet_amount} ${gameData.symbol}`)
                         return false
                     }
                     if (value < Number(gameData.min_bet_amount)) {
-                        showNoti(`🟡 Min bet amount is ${gameData.min_bet_amount}`)
+                        showNoti(`🟡 Cược tối thiểu ${gameData.min_bet_amount} ${gameData.symbol}`)
                         return false
                     }
                     return true
@@ -1654,17 +1850,19 @@
                 }
 
                 if (!currentWallet) {
-                    showNoti(`🟡 Connect Metamask wallet to play!!`)
+                    showNoti(`🟡 Kết nối ví Metamask để chơi!!`)
                     return;
                 }
                 if (!value) {
-                    showNoti(`🟡 Please enter token to bet!!`)
+                    showNoti(`🟡 Chưa nhập số lượng muốn cược!!`)
                     return;
                 }
                 if (numbers.length <= 0) {
-                    showNoti(`🟡 Please choose numbers !!`)
+                    showNoti(`🟡 Chưa chọn số muốn đặt cược !!`)
                     return;
                 }
+
+                showNoti(`🟡 Đang thực hiện giao dịch...`, true)
                 const input_value = (Number(value) * numbers.length).toString()
                 const tx = await TransferToken(input_value)
                 if (tx.status) {
@@ -1688,10 +1886,10 @@
                         .then(() => true).catch(() => false)
 
                     if (promise) {
-                        showNoti(`🟢 You bet ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} for ${numbers.join(", ")}`, true)
+                        showNoti(`🟢 đã cược ${NumberBtn.filter((item) => item.status).length * value} ${gameData.symbol} cho các số ${numbers.join(", ")}`, true)
                         add_coin.play()
                     } else {
-                        showNoti('🔴 Bet failed! Connect to supported !')
+                        showNoti('🔴 Đặt cược thất bại !')
                     }
                 }
             })
