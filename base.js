@@ -1870,7 +1870,7 @@
                         return num.map(item => {
                             return {
                                 "game_id": gameData.id,
-                                "wallet_address": currentWallet,
+                                "wallet_address": tx.data.from,
                                 "block_height": betBlock(current_block.height).toString(),
                                 "choice": item,
                                 "bet_amount": value.toString(),
