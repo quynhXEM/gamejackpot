@@ -172,6 +172,14 @@
             "api_url": "https://api.blockcypher.com",
             "scan_url": "https://btcscan.org",
             "rpc_url": "https://bitcoin.drpc.org"
+        },
+        {
+            "name": "VNC Scan",
+            "symbol": "VPC",
+            "native_currency": "VPC",
+            "chain_id": 8678671,
+            "scan_url": "https://mainnet.vncscan.io",
+            "rpc_url": " https://rpcus.vncscan.io"
         }
     ]
 
