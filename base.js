@@ -1327,6 +1327,7 @@
 
                 <ul>
                     <li>Nếu người chơi đoán đúng hai chữ số cuối, phần thưởng sẽ được phân phối dựa trên tỷ lệ cược của họ so với tổng số cược.</li>
+                    <li>Phần thưởng không vượt quá 80 lần số tiền cược vào con số may mắn. Đảm bảo công bằng cho tất cả mọi người.</li>
                     <li>Nếu không ai đoán đúng, toàn bộ số tiền trong pool sẽ được chuyển sang vòng tiếp theo.</li>
                 </ul>
 
