@@ -298,11 +298,11 @@
                     choice: item.choice,
                     bet_amount: 0
                 }
-            } 
+            }
             list_bet[item.choice].bet_amount += Number(item.bet_amount)
         })
         console.log(Object.entries(list_bet));
-        
+
         const text = Object.entries(list_bet).map(([_, value]) => value).map(item => item)?.map(item => " 🟢 Số " + item.choice + ": " + item.bet_amount + gameData.symbol + "       ")?.join(" - ")
         marqueeText.textContent = text;
 
@@ -341,8 +341,6 @@
                 const bet = document.getElementById('count_bet')
                 bet.innerText = renderTotal(total_bet)
                 block.textContent = "#" + betBlock(current_block.height)
-
-                window.location.reload()
             }
         };
 
@@ -396,14 +394,14 @@
                         case 'init':
                             historyData(data.filter(item => item.status != 'waiting_result'))
                             hisData = data.filter(item => item.status != 'waiting_result')
-                            total_bet = data.filter(item => item.block_height == betBlock(current_block.height))
+                            total_bet = data.filter(item => item.status == 'waiting_result')
                                 .reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
-                            new_bet = data.filter(item => item.block_height == betBlock(current_block.height) && item.choice != -1)
+                            new_bet = data.filter(item => item.status == 'waiting_result' && item.choice != -1)
                             renderNewBet()
                             break;
                         case 'create':
-                            total_bet += data.filter(item => item.block_height == betBlock(current_block.height))
+                            total_bet += data.filter(item => item.status == 'waiting_result')
                                 .reduce((total, item) => total + (Number(item.bet_amount) || 0), 0)
                             count_bet.textContent = renderTotal(total_bet)
                             new_bet.push(...data)
