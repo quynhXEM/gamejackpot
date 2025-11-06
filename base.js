@@ -201,7 +201,7 @@
     }
 
     function betBlock(current) {
-        return Number(current) + 1
+        return Number(current)
     }
 
     async function data_game() {
@@ -1299,7 +1299,7 @@
 
                 <ul>
                     <h3>Yêu cầu để chơi:</h3>
-                    <li>Để tham gia, bạn cần kết nối ví Metamask. Bạn sẽ cần BNB để trả phí giao dịch và <strong>${gameData.symbol}</strong> (do người tạo trò chơi quy định) để thực hiện các giao dịch trong game.</li>
+                    <li>Để tham gia, bạn cần kết nối ví Metamask. Bạn sẽ cần Coin của mạng để trả phí giao dịch và <strong>${gameData.symbol}</strong> (do người tạo trò chơi quy định) để thực hiện các giao dịch trong game.</li>
                 </ul>
 
                 <ul>
@@ -1321,7 +1321,7 @@
                 </ul>
 
                 <ul>
-                    <h3>Sau mỗi khối được xác nhận:</h3>
+                    <h3>Bắt đầu 20h mỗi ngày, khối đầu tiên sau 20h được xác nhận:</h3>
                     <li>Trò chơi sẽ sử dụng <span class="text-highlight-widget">hai chữ số cuối của kích thước khối</span> để làm kết quả.</li>
                 </ul>
 
@@ -1329,6 +1329,7 @@
                     <li>Nếu người chơi đoán đúng hai chữ số cuối, phần thưởng sẽ được phân phối dựa trên tỷ lệ cược của họ so với tổng số cược.</li>
                     <li>Phần thưởng không vượt quá 80 lần số tiền cược vào con số may mắn. Đảm bảo công bằng cho tất cả mọi người.</li>
                     <li>Nếu không ai đoán đúng, toàn bộ số tiền trong pool sẽ được chuyển sang vòng tiếp theo.</li>
+                    <li>Ví dụ: lúc 19h 59p, khối hiện tại là 100 thì khi qua 20h thì khối 101 được xác nhận sẽ lấy làm kết quả.</li>
                 </ul>
 
                 <p>Chúc bạn chơi vui vẻ và may mắn!</p>
